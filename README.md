@@ -1,2 +1,6 @@
 # Todo-APP
-할 일을 기록하는 Todo app
+## 할 일을 기록하는 Todo app
+
+[구현 기능]
+
+- 
