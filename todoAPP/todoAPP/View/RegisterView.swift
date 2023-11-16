@@ -71,7 +71,6 @@ final class RegisterView : UIView {
     @objc private func tabAddTodoButton(_:UIButton){
         delegate?.tabAddTodoButton(forView: self)        
         self.registerTextField.endEditing(true)
-
     }
     
     @objc private func tabAddSectionButton(_:UIButton){
@@ -80,10 +79,9 @@ final class RegisterView : UIView {
     }
 
     private func setStackViewLayout(){
-        //고차함수
-        registerStackView.addArrangedSubview(registerTextField)
-        registerStackView.addArrangedSubview(addTodoButton)
-        registerStackView.addArrangedSubview(addSectionButton)
+        [registerTextField,addTodoButton,addSectionButton].forEach{
+            registerStackView.addArrangedSubview($0)
+        }
         registerStackView.layoutMargins = UIEdgeInsets(top: 0, left: 10, bottom: .zero, right: 10)
         registerStackView.isLayoutMarginsRelativeArrangement = true
     }
