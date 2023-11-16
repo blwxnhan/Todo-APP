@@ -16,6 +16,8 @@ protocol PlusListButtonDelegate : AnyObject {
 final class RegisterView : UIView {
     weak var delegate : PlusListButtonDelegate?
     
+    //let firstSectionName = SaveData.shared.dataSource[].sectionName
+    
     private lazy var registerStackView : UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
@@ -39,7 +41,7 @@ final class RegisterView : UIView {
     
     lazy var addTodoButton : UIButton = {
         let button = UIButton()
-        button.setTitle("Today", for: .normal)
+        button.setTitle("today", for: .normal)
         button.tintColor = .white
         button.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         button.addTarget(self, action: #selector(tabAddTodoButton), for: .touchUpInside)

@@ -31,6 +31,7 @@ class TodoListViewController: UIViewController {
 // MARK: - keyboard
     override func viewWillAppear(_ animated: Bool) {
         self.addKeyboardNotifications()
+        tableView.reloadData()
     }
         
     override func viewWillDisappear(_ animated: Bool) {
@@ -95,13 +96,13 @@ class TodoListViewController: UIViewController {
 // MARK: -  초기 data
     private func setUp() {
         let todayModels = [
-            TodoListModel(success: false, todoNameLabel: "study"),
+            TodoListModel(success: false, todoNameLabel: "study",startDate: nil, deadlineDate: nil),
         ]
         let todaySection = SettingSection.init(list: todayModels, sectionName: "Today")
         
         let upcomingModels = [
-            TodoListModel(success: false, todoNameLabel: "exercise"),
-            TodoListModel(success: false, todoNameLabel: "work"),
+            TodoListModel(success: false, todoNameLabel: "exercise",startDate: nil, deadlineDate: nil),
+            TodoListModel(success: false, todoNameLabel: "work",startDate: nil, deadlineDate: nil),
         ]
         let upcomingSection = SettingSection.init(list: upcomingModels, sectionName: "Upcoming")
         
@@ -166,6 +167,10 @@ extension TodoListViewController : UITableViewDataSource, UITableViewDelegate {
         let sectionData = saveData.dataSource[section]
         
         return sectionData.list.count
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        <#code#>
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -255,7 +260,7 @@ extension TodoListViewController : ButtonTappedDelegate {
 extension TodoListViewController : PlusListButtonDelegate {
     func tabAddTodoButton(forView view: RegisterView) {
         if let text = view.registerTextField.text, !text.isEmpty {
-            let newTodo = TodoListModel(success: false, todoNameLabel: text)
+            let newTodo = TodoListModel(success: false, todoNameLabel: text,startDate: nil, deadlineDate: nil)
        
             if saveData.dataSource.isEmpty {
                 let newSection = SettingSection(list: [newTodo], sectionName: "Today")
