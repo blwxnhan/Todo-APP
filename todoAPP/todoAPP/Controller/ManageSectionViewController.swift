@@ -16,25 +16,23 @@ class ManageSectionViewController : UIViewController {
         
         view.backgroundColor = .white
         setLayout()
+        configureTableView()
     }
     
     private lazy var sectionTableView : UITableView = {
         let tableView = UITableView()
         tableView.separatorStyle = .none
-        tableView.delegate = self
-        tableView.dataSource = self 
         
         return tableView
     }()
     
-//    var sectionName : UILabel = {
-//        let label = UILabel()
-//        label.textColor = .black
-//        label.font = UIFont.systemFont(ofSize: 20, weight: .heavy)
-//        
-//        return label
-//    }()
-    
+    private func configureTableView() {
+        sectionTableView.delegate = self
+        sectionTableView.dataSource = self
+        
+        sectionTableView.register(SectionTableViewCell.self, forCellReuseIdentifier: SectionTableViewCell.identifier)
+    }
+        
     private func setLayout() {
         view.addSubview(sectionTableView)
         
@@ -47,23 +45,36 @@ class ManageSectionViewController : UIViewController {
     }
 }
 
-
 // MARK: - UITableView extension
-
 extension ManageSectionViewController : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let sectionData = saveData.dataSource[indexPath.section]
-                
+        let sectionData = saveData.dataSource[indexPath.row]
+        print(sectionData.sectionName)
+
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: SectionTableViewCell.identifier,
             for: indexPath
         ) as? SectionTableViewCell else {
             fatalError("Failed to dequeue a cell.")
         }
+        cell.selectionStyle = .none
+        cell.sectionNameLabel.text = sectionData.sectionName
 
+        return cell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return saveData.dataSource.count
     }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            saveData.dataSource.remove(at: indexPath.row)
+            
+            saveData.saveAllData()
+
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+    }
+
 }

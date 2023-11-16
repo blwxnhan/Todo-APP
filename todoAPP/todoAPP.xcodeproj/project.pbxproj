@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		296455A12B05A68400B8A6BB /* SectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 296455A02B05A68400B8A6BB /* SectionTableViewCell.swift */; };
 		296455A32B05ABF900B8A6BB /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 296455A22B05ABF900B8A6BB /* UserDefaults.swift */; };
+		296455A52B05D82D00B8A6BB /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 296455A42B05D82D00B8A6BB /* DetailViewController.swift */; };
 		299216092AFD1BBE0087158C /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 299216082AFD1BBE0087158C /* TabBarController.swift */; };
 		2992160D2AFD28EF0087158C /* NavigationBarTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2992160C2AFD28EF0087158C /* NavigationBarTitleView.swift */; };
 		299216112AFD3F2F0087158C /* ManageSectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 299216102AFD3F2F0087158C /* ManageSectionViewController.swift */; };
@@ -30,6 +31,7 @@
 /* Begin PBXFileReference section */
 		296455A02B05A68400B8A6BB /* SectionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionTableViewCell.swift; sourceTree = "<group>"; };
 		296455A22B05ABF900B8A6BB /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
+		296455A42B05D82D00B8A6BB /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		299216082AFD1BBE0087158C /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		2992160C2AFD28EF0087158C /* NavigationBarTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBarTitleView.swift; sourceTree = "<group>"; };
 		299216102AFD3F2F0087158C /* ManageSectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageSectionViewController.swift; sourceTree = "<group>"; };
@@ -122,6 +124,7 @@
 				29D294BA2AFB1DC900B92B99 /* TodoListViewController.swift */,
 				299216082AFD1BBE0087158C /* TabBarController.swift */,
 				299216102AFD3F2F0087158C /* ManageSectionViewController.swift */,
+				296455A42B05D82D00B8A6BB /* DetailViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -209,6 +212,7 @@
 				29D294A52AFB1CA700B92B99 /* SceneDelegate.swift in Sources */,
 				29D294C82AFB1DDF00B92B99 /* TodoTableViewCell.swift in Sources */,
 				2992160D2AFD28EF0087158C /* NavigationBarTitleView.swift in Sources */,
+				296455A52B05D82D00B8A6BB /* DetailViewController.swift in Sources */,
 				299216112AFD3F2F0087158C /* ManageSectionViewController.swift in Sources */,
 				29D294C52AFB1DDF00B92B99 /* RegisterView.swift in Sources */,
 				29D294C72AFB1DDF00B92B99 /* TableViewHeaderView.swift in Sources */,

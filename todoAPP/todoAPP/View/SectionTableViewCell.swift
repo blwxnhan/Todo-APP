@@ -9,10 +9,10 @@ import UIKit
 import SnapKit
 
 final class SectionTableViewCell : UITableViewCell {
-    private let sectionNameLabel : UILabel = {
+    let sectionNameLabel : UILabel = {
         let label = UILabel()
-        label.text = "section"
-        
+        label.textColor = .black
+        label.font = UIFont.systemFont(ofSize: 20, weight: .heavy)
         
         return label
     }()
@@ -30,9 +30,9 @@ final class SectionTableViewCell : UITableViewCell {
         addSubview(sectionNameLabel)
         
         sectionNameLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(10)
-            $0.leading.equalToSuperview().offset(20)
-            $0.bottom.equalToSuperview().offset(-10)
+            $0.top.equalToSuperview().offset(20)
+            $0.leading.equalToSuperview().offset(30)
+            $0.bottom.equalToSuperview().offset(-20)
         }
     }
 
