@@ -10,6 +10,8 @@ import SnapKit
 
 class ManageSectionViewController : UIViewController {
     private let saveData = SaveData.shared
+    
+//    private var dataSource = SaveData.shared.dataSource
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,7 +40,7 @@ class ManageSectionViewController : UIViewController {
         
         sectionTableView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).offset(20)
-            $0.bottom.trailing.equalTo(view.safeAreaLayoutGuide)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide)
             $0.leading.equalTo(view.safeAreaLayoutGuide).offset(5)
             $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-5)
         }
