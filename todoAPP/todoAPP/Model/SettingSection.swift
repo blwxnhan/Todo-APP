@@ -5,7 +5,7 @@
 //  Created by Bowon Han on 11/7/23.
 //
 
-import UIKit
+import Foundation
 
 struct SettingSection : Codable {
     var list : [TodoListModel]

@@ -13,6 +13,8 @@ import SnapKit
 class TodoListViewController: UIViewController {
     private let saveData = SaveData.shared
     
+//    private var dataSource = SaveData.shared.dataSource
+    
     var bottomConstraint: NSLayoutConstraint?
     
     override func viewDidLoad() {
@@ -21,11 +23,15 @@ class TodoListViewController: UIViewController {
         view.backgroundColor = .white
         setLayout()
         configureTableView()
-        setUp()
+//        setUp()
         keyboardLayout()
-        saveData.loadAllData()
+        SaveData.shared.loadAllData()
     
         self.view.gestureRecognizers?.removeAll()
+        if let firstSection = saveData.dataSource.first {
+            let firstSectionName = firstSection.sectionName
+            registerView.addTodoButton.setTitle(firstSectionName, for: .normal)
+        }
     }
     
 // MARK: - keyboard
@@ -93,22 +99,22 @@ class TodoListViewController: UIViewController {
         return view
     }()
 
-// MARK: -  초기 data
-    private func setUp() {
-        let todayModels = [
-            TodoListModel(success: false, todoNameLabel: "study",startDate: nil, deadlineDate: nil),
-        ]
-        let todaySection = SettingSection.init(list: todayModels, sectionName: "Today")
-        
-        let upcomingModels = [
-            TodoListModel(success: false, todoNameLabel: "exercise",startDate: nil, deadlineDate: nil),
-            TodoListModel(success: false, todoNameLabel: "work",startDate: nil, deadlineDate: nil),
-        ]
-        let upcomingSection = SettingSection.init(list: upcomingModels, sectionName: "Upcoming")
-        
-        saveData.dataSource = [todaySection,upcomingSection]
-        self.tableView.reloadData()
-    }
+ //MARK: -  초기 data
+//    private func setUp() {
+//        let todayModels = [
+//            TodoListModel(success: false, todoNameLabel: "study",startDate: nil, deadlineDate: nil),
+//        ]
+//        let todaySection = SettingSection.init(list: todayModels, sectionName: "Today")
+//        
+//        let upcomingModels = [
+//            TodoListModel(success: false, todoNameLabel: "exercise",startDate: nil, deadlineDate: nil),
+//            TodoListModel(success: false, todoNameLabel: "work",startDate: nil, deadlineDate: nil),
+//        ]
+//        let upcomingSection = SettingSection.init(list: upcomingModels, sectionName: "Upcoming")
+//        
+//        saveData.dataSource = [todaySection,upcomingSection]
+//        self.tableView.reloadData()
+//    }
         
 // MARK: - layout
     private func setLayout() {
@@ -117,13 +123,13 @@ class TodoListViewController: UIViewController {
         
         tableView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).offset(20)
-            $0.bottom.trailing.equalTo(view.safeAreaLayoutGuide)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide)
             $0.leading.equalTo(view.safeAreaLayoutGuide).offset(5)
             $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-5)
         }
         
         registerView.snp.makeConstraints {
-            $0.bottom.equalTo(view.safeAreaLayoutGuide)
+            $0.bottom.equalToSuperview()
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(70)
         }
@@ -140,8 +146,10 @@ class TodoListViewController: UIViewController {
 // MARK: - UITableView extension
 extension TodoListViewController : UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let sectionData = saveData.dataSource[indexPath.section]
+//        let sectionData = saveData.dataSource[indexPath.section]
                 
+        let sectionData = saveData.dataSource[indexPath.section]
+
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: TodoTableViewCell.identifier,
             for: indexPath
@@ -170,7 +178,14 @@ extension TodoListViewController : UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        <#code#>
+        let sectionData = saveData.dataSource[indexPath.section]
+        
+        let todoListDetail = sectionData.list[indexPath.row]
+
+        let detailVC = DetailViewController()
+        detailVC.detailViewListName.text = todoListDetail.todoNameLabel
+        
+        self.navigationController?.pushViewController(detailVC, animated: true)
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -205,22 +220,22 @@ extension TodoListViewController : UITableViewDataSource, UITableViewDelegate {
 // MARK: - ButtonTappedDelegate extension
 extension TodoListViewController : ButtonTappedDelegate {
     func tapFinishButton(forCell cell: TodoTableViewCell) {
-        guard let indexPath = tableView.indexPath(for: cell) 
-            else { return }
+//        guard let indexPath = tableView.indexPath(for: cell) 
+//            else { return }
         
-        let sectionIndex = indexPath.section
-        let itemIndex = indexPath.row
+//        let sectionIndex = indexPath.section
+//        let itemIndex = indexPath.row
         
-        var successValue = saveData.dataSource[sectionIndex].list[itemIndex].success
+//        var successValue = saveData.dataSource[sectionIndex].list[itemIndex].success
         
-        if !successValue {
+        if !cell.success {
             cell.checkButton.setImage(UIImage(systemName: "checkmark.circle.fill"), for: .normal)
             
             cell.todoListLabel.textColor = .lightGray
             cell.todoListLabel.strikethroughAndChangeLineColor(from: cell.todoListLabel.text, at: cell.todoListLabel.text)
             
             cell.deleteButton.setImage(UIImage(systemName: "multiply.circle.fill"), for: .normal)
-            successValue = true
+            cell.success = true
         }
         else {
             cell.checkButton.setImage(UIImage(systemName: "circle"), for: .normal)
@@ -229,7 +244,7 @@ extension TodoListViewController : ButtonTappedDelegate {
             cell.todoListLabel.unsetStrikethrough(from: cell.todoListLabel.text, at: cell.todoListLabel.text)
             
             cell.deleteButton.setImage(nil, for: .normal)
-            successValue = false
+            cell.success = false
         }
     }
     

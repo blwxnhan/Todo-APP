@@ -67,7 +67,7 @@ class TodoTableViewHeaderView : UITableViewHeaderFooterView {
             $0.top.equalToSuperview().offset(10)
             $0.bottom.equalToSuperview().offset(-10)
             $0.leading.equalToSuperview().offset(20)
-            $0.trailing.equalToSuperview().offset(-25)
+            $0.trailing.equalToSuperview().offset(-20)
         }
     }
 }
