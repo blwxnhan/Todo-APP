@@ -13,8 +13,13 @@ protocol ButtonTappedDelegate : AnyObject {
     func tapDeleteButton(forCell cell: TodoTableViewCell)
 }
 
+protocol TodoTableViewCellDelegate : AnyObject {
+    func removeList(forCell cell: TodoTableViewCell)
+}
+
 final class TodoTableViewCell : UITableViewCell {
-    weak var delegate : ButtonTappedDelegate?
+    weak var buttonDelegate : ButtonTappedDelegate?
+    weak var removeDelegate : TodoTableViewCellDelegate?
         
     lazy var deleteButton : UIButton = {
         let button = UIButton()
@@ -93,11 +98,11 @@ final class TodoTableViewCell : UITableViewCell {
     }
     
     @objc func tabFinishButton(_:UIButton){
-        delegate?.tapFinishButton(forCell: self)
+        buttonDelegate?.tapFinishButton(forCell: self)
     }
     
     @objc func tabDeleteButton(_:UIButton){
-        delegate?.tapDeleteButton(forCell: self)
+        buttonDelegate?.tapDeleteButton(forCell: self)
     }
     
 // MARK: - layout
