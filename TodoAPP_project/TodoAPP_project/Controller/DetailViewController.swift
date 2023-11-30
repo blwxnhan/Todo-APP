@@ -1,19 +1,17 @@
 //
 //  DetailViewController.swift
-//  TodoListProject
+//  TodoAPP_project
 //
-//  Created by Bowon Han on 11/19/23.
+//  Created by Bowon Han on 11/26/23.
 //
 
 import UIKit
 import SnapKit
 
 class DetailViewController : UIViewController {
-    private let saveData = SaveData.shared
+    private let saveData = Networks.shared
     
-    var sectionNumber = 0
     var indexNumber = 0
-    //
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,7 +22,6 @@ class DetailViewController : UIViewController {
 
         setLayout()
         configureDatePicker()
-        configureSwitch()
     }
     
     var detailViewListName : UILabel = {
@@ -47,20 +44,6 @@ class DetailViewController : UIViewController {
         return label
     }()
     
-    private lazy var dateOnOffSwitch : UISwitch = {
-        let dateSwitch = UISwitch()
-        dateSwitch.addTarget(self, action: #selector(dateSwitchOff), for: .touchUpInside)
-        
-        return dateSwitch
-    }()
-    
-    private lazy var startDateView : DateSelectView = {
-        let view = DateSelectView()
-        view.dateLabel.text = "시작일"
-        
-        return view
-    }()
-    
     private lazy var endDateView : DateSelectView = {
         let view = DateSelectView()
         view.dateLabel.text = "마감일"
@@ -70,7 +53,7 @@ class DetailViewController : UIViewController {
     
     private lazy var saveButton : UIButton = {
         let button = UIButton()
-        button.setTitle("저장", for: .normal)
+        button.setTitle("수정", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         button.layer.borderWidth = 10
         button.layer.cornerRadius = 10
@@ -82,56 +65,40 @@ class DetailViewController : UIViewController {
     }()
     
     @objc func tabSaveButton(_ :UIButton) {
-        let selectedStartDate = startDateView.dataPicker.date
-        let selectedEndDate = endDateView.dataPicker.date
+        let selectedEndDate = endDateView.dataPicker.date.toString()
+        let cellData = saveData.todoDataSource[indexNumber]
+        let id = cellData.id
+        let title = cellData.title
+        var description = ""
+        
+        var isFinishedTodo : Bool?
+        if let isFinished = cellData.isFinished {
+            isFinishedTodo = isFinished
+        }
 
-        saveData.dataSource[sectionNumber].list[indexNumber].startDate = selectedStartDate
-        saveData.dataSource[sectionNumber].list[indexNumber].endDate = selectedEndDate
+//        if let isFinishedTodo = cellData.isFinished { }
+        if let descriptionTodo = cellData.description {
+            description = descriptionTodo
+        }
+
+        //saveData.todoDataSource[indexNumber].endDate = selectedEndDate
+        saveData.modifyTodoList(title: title, description: description, isFinished: isFinishedTodo ?? false, endDate: selectedEndDate, id: id)
         
         configureDatePicker()
-        dateOnOffSwitch.isOn = true
-    }
-    
-    @objc func dateSwitchOff(_ sender:UISwitch) {
-        if !sender.isOn {
-            saveData.dataSource[sectionNumber].list[indexNumber].startDate = nil
-            saveData.dataSource[sectionNumber].list[indexNumber].endDate = nil
-            
-            startDateView.dataPicker.date = .now
-            endDateView.dataPicker.date = .now
-        }
     }
     
     private func configureDatePicker() {
-        if let startDate = saveData.dataSource[sectionNumber].list[indexNumber].startDate {
-            startDateView.dataPicker.date = startDate
-            print(startDate)
-        }
-        
-        if let endDate = saveData.dataSource[sectionNumber].list[indexNumber].endDate {
+        if let endDate = saveData.todoDataSource[indexNumber].endDate {
             endDateView.dataPicker.date = endDate
             print(endDate)
         }
     }
     
-    private func configureSwitch() {
-        let startDate = saveData.dataSource[sectionNumber].list[indexNumber].startDate
-        let endDate = saveData.dataSource[sectionNumber].list[indexNumber].endDate
-        
-        if startDate != nil || endDate != nil {
-            dateOnOffSwitch.isOn = true
-        }
-        
-        else { dateOnOffSwitch.isOn = false }
-    }
-    
     private func setLayout() {
         [detailViewListName,
          dateConfigureLabel,
-         startDateView,
          endDateView,
-         saveButton,
-         dateOnOffSwitch].forEach {
+         saveButton].forEach {
             view.addSubview($0)
         }
         
@@ -146,21 +113,8 @@ class DetailViewController : UIViewController {
             $0.leading.equalTo(view.safeAreaLayoutGuide).offset(50)
         }
         
-        dateOnOffSwitch.snp.makeConstraints {
-            $0.top.equalTo(detailViewListName.snp.bottom).offset(50)
-            $0.leading.equalTo(dateConfigureLabel.snp.trailing).offset(20)
-            $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-50)
-        }
-
-        
-        startDateView.snp.makeConstraints {
-            $0.top.equalTo(dateConfigureLabel.snp.bottom).offset(30)
-            $0.leading.equalTo(view.safeAreaLayoutGuide).offset(20)
-            $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-20)
-        }
-        
         endDateView.snp.makeConstraints {
-            $0.top.equalTo(startDateView.snp.bottom)
+            $0.top.equalTo(dateConfigureLabel.snp.bottom).offset(20)
             $0.leading.equalTo(view.safeAreaLayoutGuide).offset(20)
             $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-20)
         }

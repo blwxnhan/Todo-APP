@@ -7,13 +7,14 @@
 
 import Foundation
 
-struct Model : Codable,Hashable {
+struct Model : Codable {
     var list : [TodoListModel]
     let sectionName : String
 }
 
-struct TodoListModel : Codable,Hashable {
-    var id = UUID().uuidString
+//mutating 
+
+struct TodoListModel : Codable {
     var success : Bool = false
     let todoNameLabel : String
     var startDate : Date?

@@ -11,7 +11,6 @@ import SnapKit
 class TodoListViewController: UIViewController {
     private let saveData = SaveData.shared
     
-    var registerViewBottomConstraint : Constraint?
     let scrollView = UIScrollView()
     
     override func viewDidLoad() {
@@ -20,67 +19,17 @@ class TodoListViewController: UIViewController {
         view.backgroundColor = .white
         setLayout()
         configureTableView()
-//        keyboardLayout()
         SaveData.shared.loadAllData()
         configureScrollViewInset()
         configureRegisterViewButtonTitle()
-    
-        self.view.gestureRecognizers?.removeAll()
     }
     
-// MARK: - keyboard
-//    override func viewWillAppear(_ animated: Bool) {
-//        self.addKeyboardNotifications()
-//    }
-//        
-//    override func viewWillDisappear(_ animated: Bool) {
-//        self.removeKeyboardNotifications()
-//        saveData.saveAllData()
-//    }
-//    
-//    func keyboardLayout() {
-//        let safeArea = self.view.safeAreaLayoutGuide
-//            
-////        self.registerViewBottomConstraint = NSLayoutConstraint(item: self.registerView, attribute: .bottom, relatedBy: .equal, toItem: safeArea, attribute: .bottom, multiplier: 1.0, constant: 0)
-////        self.registerViewBottomConstraint?.isActive = true
-//    }
-//        
-//    func addKeyboardNotifications() {
-//        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification , object: nil)
-//        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-//    }
-//    
-//    func removeKeyboardNotifications() {
-//        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification , object: nil)
-//        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
-//    }
-//    
-//    @objc func keyboardWillShow(_ noti: NSNotification) {
-//        if let keyboardSize = (noti.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-//            let keyboardHeight: CGFloat
-//            keyboardHeight = keyboardSize.height - self.view.safeAreaInsets.bottom
-//            self.registerViewBottomConstraint?.constant = -1 * keyboardHeight
-//            
-//            self.view.layoutIfNeeded()
-//        }
-//    }
-//
-//    @objc func keyboardWillHide(_ noti: NSNotification) {
-//        if let keyboardFrame: NSValue = noti.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-//            let keyboardRectangle = keyboardFrame.cgRectValue
-//            let keyboardHeight = keyboardRectangle.height
-//            self.registerViewBottomConstraint?.constant = keyboardHeight
-//            self.view.layoutIfNeeded()
-//        }
-//    }
 
 // MARK: - UI
-    private lazy var todoTableView : UITableView = {
+    private lazy var tableView : UITableView = {
         let tableView = UITableView(frame: CGRect.zero, style: .grouped)
         tableView.separatorStyle = .none
         tableView.backgroundColor = .white
-        
-        tableView.register(TodoTableViewCell.self, forCellReuseIdentifier: TodoTableViewCell.identifier)
         
         tableView.estimatedRowHeight = UITableView.automaticDimension
         tableView.rowHeight = UITableView.automaticDimension
@@ -97,10 +46,10 @@ class TodoListViewController: UIViewController {
         
 // MARK: - layout
     private func setLayout() {
-        view.addSubview(todoTableView)
+        view.addSubview(tableView)
         view.addSubview(registerView)
         
-        todoTableView.snp.makeConstraints {
+        tableView.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.bottom.equalToSuperview()
             $0.leading.equalToSuperview()
@@ -115,45 +64,16 @@ class TodoListViewController: UIViewController {
     }
     
     private func configureTableView() {
-        //tableView.dataSource = self
-        todoTableView.delegate = self
-//        tableView.register(TodoTableViewCell.self, forCellReuseIdentifier: TodoTableViewCell.identifier)
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.register(TodoTableViewCell.self, forCellReuseIdentifier: TodoTableViewCell.identifier)
     }
-    
-    private lazy var todoTableViewDifferableDataSource : UITableViewDiffableDataSource <Model, TodoListModel> = {
-        let differableDataSource = UITableViewDiffableDataSource <Model,TodoListModel> (tableView : todoTableView) {
-            tableView, IndexPath, list -> UITableViewCell? in
-            guard let cell = self.todoTableView.dequeueReusableCell(withIdentifier: TodoTableViewCell.identifier) as? TodoTableViewCell
-            else {
-                return UITableViewCell()
-            }
-            cell.buttonDelegate = self
-            cell.removeDelegate = self
-            
-            return cell
-        }
-        
-        return differableDataSource
-    }()
-    
-    private lazy var todoTableViewSnapShot = NSDiffableDataSourceSnapshot<Model, TodoListModel>()
-    
-    private func loadTableView() {
-        todoTableViewSnapShot = NSDiffableDataSourceSnapshot<Model, TodoListModel>()
-        todoTableViewSnapShot.appendSections([])
-//        populateSnapshot(data: , to: )
-    }
-        
-        private func populateSnapshot(data: [TodoListModel], to section: Model) {
-            todoTableViewSnapShot.appendItems(data, toSection: section)
-            todoTableViewDifferableDataSource.apply(todoTableViewSnapShot)
-        }
     
     private func configureScrollViewInset() {
         if let tabBarHeight = tabBarController?.tabBar.frame.size.height {
             let insets = UIEdgeInsets(top: 0, left: 0, bottom: tabBarHeight, right: 0)
-            todoTableView.contentInset = insets
-            todoTableView.scrollIndicatorInsets = insets
+            tableView.contentInset = insets
+            tableView.scrollIndicatorInsets = insets
         }
     }
     
@@ -166,37 +86,37 @@ class TodoListViewController: UIViewController {
 }
 
 // MARK: - UITableView extension
-extension TodoListViewController : UITableViewDelegate {
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let sectionData = saveData.dataSource[indexPath.section]
-//
-//        guard let cell = tableView.dequeueReusableCell(
-//            withIdentifier: TodoTableViewCell.identifier,
-//            for: indexPath
-//        ) as? TodoTableViewCell else {
-//            fatalError("Failed to dequeue a cell.")
-//        }
-//        
-//        let todayModel = sectionData.list[indexPath.row]
-//        cell.prepareLabel(
-//            todoListLabel:todayModel.todoNameLabel
-//        )
-//        
-//        cell.delegate = self
-//        cell.selectionStyle = .none
-//        
-//        let successOrNot = todayModel.success
-//        print(successOrNot)
-//        
-//        if successOrNot {
-//            cell.complete()
-//        }
-//        else {
-//            cell.unComplete()
-//        }
-//
-//        return cell
-//    }
+extension TodoListViewController : UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let sectionData = saveData.dataSource[indexPath.section]
+
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: TodoTableViewCell.identifier,
+            for: indexPath
+        ) as? TodoTableViewCell else {
+            fatalError("Failed to dequeue a cell.")
+        }
+        
+        let todayModel = sectionData.list[indexPath.row]
+        cell.prepareLabel(
+            todoListLabel:todayModel.todoNameLabel
+        )
+        
+        cell.delegate = self
+        cell.selectionStyle = .none
+        
+        let successOrNot = todayModel.success
+        print(successOrNot)
+        
+        if successOrNot {
+            cell.complete()
+        }
+        else {
+            cell.unComplete()
+        }
+
+        return cell
+    }
     
     func numberOfSections(in tableView: UITableView) -> Int {
         saveData.dataSource.count
@@ -221,17 +141,17 @@ extension TodoListViewController : UITableViewDelegate {
         self.navigationController?.pushViewController(detailVC, animated: true)
     }
     
-//    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-//        if editingStyle == .delete {
-//            var section = saveData.dataSource[indexPath.section]
-//            
-//            section.list.remove(at: indexPath.row)
-//            
-//            saveData.dataSource[indexPath.section] = section
-//
-//            tableView.deleteRows(at: [indexPath], with: .fade)
-//        }
-//    }
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            var section = saveData.dataSource[indexPath.section]
+            
+            section.list.remove(at: indexPath.row)
+            
+            saveData.dataSource[indexPath.section] = section
+
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+    }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let sectionData = saveData.dataSource[section]
@@ -253,17 +173,10 @@ extension TodoListViewController : UITableViewDelegate {
     }
 }
 
-// MARK: - TodoListViewController extension
-extension TodoListViewController : TodoTableViewCellDelegate {
-    func removeList(forCell cell: TodoTableViewCell) {
-        
-    }
-}
-
 // MARK: - ButtonTappedDelegate extension
 extension TodoListViewController : ButtonTappedDelegate {
     func tapFinishButton(forCell cell: TodoTableViewCell) {
-        guard let indexPath = todoTableView.indexPath(for: cell)
+        guard let indexPath = tableView.indexPath(for: cell)
         else { return }
         
         let sectionIndex = indexPath.section
@@ -283,7 +196,7 @@ extension TodoListViewController : ButtonTappedDelegate {
     }
     
     func tapDeleteButton(forCell cell: TodoTableViewCell) {
-        if let indexPath = todoTableView.indexPath(for: cell),
+        if let indexPath = tableView.indexPath(for: cell),
            indexPath.section < saveData.dataSource.count {
             var section = saveData.dataSource[indexPath.section]
             
@@ -292,7 +205,7 @@ extension TodoListViewController : ButtonTappedDelegate {
 
                 saveData.dataSource[indexPath.section] = section
                 
-                todoTableView.deleteRows(at: [indexPath], with: .fade)
+                tableView.deleteRows(at: [indexPath], with: .fade)
                 
                 cell.checkButton.setImage(UIImage(systemName: "circle"), for: .normal)
                 cell.todoListLabel.textColor = .black
@@ -320,7 +233,7 @@ extension TodoListViewController : PlusListButtonDelegate {
                         saveData.dataSource[sectionIndex].list.append(newTodo)
                         
                         let newIndexPath = IndexPath(row: saveData.dataSource[sectionIndex].list.count - 1, section: sectionIndex)
-                        todoTableView.insertRows(at: [newIndexPath], with: .none)
+                        tableView.insertRows(at: [newIndexPath], with: .none)
                     }
                 }
             }
@@ -334,7 +247,7 @@ extension TodoListViewController : PlusListButtonDelegate {
             saveData.dataSource.append(newSection)
             
             let sectionIndex = saveData.dataSource.count - 1
-            todoTableView.insertSections(IndexSet(integer: sectionIndex), with: .none)
+            tableView.insertSections(IndexSet(integer: sectionIndex), with: .none)
         
             view.registerTextField.text = ""
         }

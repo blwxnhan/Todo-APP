@@ -1,8 +1,8 @@
 //
 //  TodoTableViewCell.swift
-//  TodoListProject
+//  TodoAPP_project
 //
-//  Created by Bowon Han on 11/19/23.
+//  Created by Bowon Han on 11/26/23.
 //
 
 import UIKit
@@ -70,7 +70,6 @@ final class TodoTableViewCell : UITableViewCell {
         todoListLabel.strikethroughAndChangeLineColor(from: todoListLabel.text, at: todoListLabel.text)
                 
         deleteButton.setImage(UIImage(systemName: "multiply.circle.fill"), for: .normal)
-        print("complete")
     }
     
     func unComplete() {
@@ -80,7 +79,6 @@ final class TodoTableViewCell : UITableViewCell {
         todoListLabel.unsetStrikethrough(from: todoListLabel.text, at: todoListLabel.text)
             
         deleteButton.setImage(nil, for: .normal)
-        print("unComplete")
     }
     
     override func prepareForReuse() {
@@ -119,11 +117,10 @@ final class TodoTableViewCell : UITableViewCell {
         contentView.addSubview(stackView)
                 
         stackView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(5)
+            $0.top.equalToSuperview()
             $0.leading.equalToSuperview().offset(30)
             $0.trailing.equalToSuperview().offset(-30)
-            $0.bottom.equalToSuperview().offset(-5)
-            $0.height.equalTo(40)
+            $0.bottom.equalToSuperview()
         }
     }
 }
