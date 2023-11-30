@@ -78,7 +78,9 @@ class LoginViewController : UIViewController {
     }()
     
     @objc private func tabLoginButton(_: UIButton) {
-        
+        let tabBarVC = TabBarController()
+        tabBarVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
+        self.present(tabBarVC, animated: false, completion: nil)
     }
     
     private func setLayout() {

@@ -12,6 +12,8 @@ enum FetchError: Error {
     case jsonDecodeError
 }
 
+
+
 class Networks {
     static let shared = Networks()
     
@@ -19,7 +21,7 @@ class Networks {
     
     private init() {}
         
-//    func fetchAllTodoList(_ id: Int) {
+//    func fetchAllTodoList(_ id: Int) async throws {
 //        guard let url = URL(string: "http://hyeseong.na2ru2.me/api/members/tasks/\(id)") else { return }
 //        
 //        Task {
@@ -99,6 +101,7 @@ class Networks {
     
     private func createTodoInfo(url: URL, param: [String: Any]) async throws {
         let sendData = try! JSONSerialization.data(withJSONObject: param, options: [])
+        //수정
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"

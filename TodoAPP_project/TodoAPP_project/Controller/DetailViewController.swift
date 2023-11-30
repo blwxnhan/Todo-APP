@@ -76,7 +76,6 @@ class DetailViewController : UIViewController {
             isFinishedTodo = isFinished
         }
 
-//        if let isFinishedTodo = cellData.isFinished { }
         if let descriptionTodo = cellData.description {
             description = descriptionTodo
         }

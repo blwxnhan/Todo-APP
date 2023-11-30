@@ -14,7 +14,10 @@ struct Todo : Codable {
     var description : String?
     var endDate : Date?
     var isFinished : Bool?
+    
     var memberId : Int?
+    var memberEmail : String?
+    var memberPassword : String?
 }
 
 //mutating
