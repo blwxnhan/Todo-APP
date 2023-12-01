@@ -27,7 +27,8 @@
 		2912F9E12B135F73003F3A90 /* DateSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2912F9E02B135F73003F3A90 /* DateSelectView.swift */; };
 		2912F9E32B135F9C003F3A90 /* SectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2912F9E22B135F9C003F3A90 /* SectionHeaderView.swift */; };
 		29F6AF022B1834CC00CEAC36 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29F6AF012B1834CC00CEAC36 /* LoginViewController.swift */; };
-		29F6AF042B18376900CEAC36 /* LoginInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29F6AF032B18376900CEAC36 /* LoginInputView.swift */; };
+		29F6AF042B18376900CEAC36 /* InputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29F6AF032B18376900CEAC36 /* InputView.swift */; };
+		29FE09E72B19B51E00BFE283 /* JoinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29FE09E62B19B51E00BFE283 /* JoinViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,7 +53,8 @@
 		2912F9E02B135F73003F3A90 /* DateSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateSelectView.swift; sourceTree = "<group>"; };
 		2912F9E22B135F9C003F3A90 /* SectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeaderView.swift; sourceTree = "<group>"; };
 		29F6AF012B1834CC00CEAC36 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
-		29F6AF032B18376900CEAC36 /* LoginInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInputView.swift; sourceTree = "<group>"; };
+		29F6AF032B18376900CEAC36 /* InputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputView.swift; sourceTree = "<group>"; };
+		29FE09E62B19B51E00BFE283 /* JoinViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,7 +109,7 @@
 				2912F9DA2B1329D2003F3A90 /* NavigationBarTitleView.swift */,
 				2912F9E02B135F73003F3A90 /* DateSelectView.swift */,
 				2912F9E22B135F9C003F3A90 /* SectionHeaderView.swift */,
-				29F6AF032B18376900CEAC36 /* LoginInputView.swift */,
+				29F6AF032B18376900CEAC36 /* InputView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -131,6 +133,7 @@
 				2912F9CC2B132797003F3A90 /* SettingViewController.swift */,
 				2912F9DE2B135EDB003F3A90 /* DetailViewController.swift */,
 				29F6AF012B1834CC00CEAC36 /* LoginViewController.swift */,
+				29FE09E62B19B51E00BFE283 /* JoinViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -227,8 +230,9 @@
 				29F6AF022B1834CC00CEAC36 /* LoginViewController.swift in Sources */,
 				2912F9DF2B135EDB003F3A90 /* DetailViewController.swift in Sources */,
 				2912F9DD2B132A72003F3A90 /* Networks.swift in Sources */,
+				29FE09E72B19B51E00BFE283 /* JoinViewController.swift in Sources */,
 				2912F9CD2B132797003F3A90 /* SettingViewController.swift in Sources */,
-				29F6AF042B18376900CEAC36 /* LoginInputView.swift in Sources */,
+				29F6AF042B18376900CEAC36 /* InputView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
