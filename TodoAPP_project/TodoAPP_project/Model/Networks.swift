@@ -12,8 +12,6 @@ enum FetchError: Error {
     case jsonDecodeError
 }
 
-
-
 class Networks {
     static let shared = Networks()
     
@@ -73,8 +71,22 @@ class Networks {
         }
     }
     
-    func deleteTodoList(_ id: Int) {
+    func modifySuccess(_ id: Int) {
         guard let url = URL(string: "http://hyeseong.na2ru2.me/api/tasks/\(id)") else { return }
+
+        Task {
+            do {
+                let todoInformation = try await self.modifySuccessInfo(url: url)
+//                self.todoDataSource = todoInformation
+                print(todoDataSource)
+            } catch {
+                print("Error: \(error)")
+            }
+        }
+    }
+    
+    func deleteTodoList(_ id: Int) {
+        guard let url = URL(string: "http://hyeseong.na2ru2.me/api/tasks/finish/\(id)") else { return }
         
         Task {
             do {
@@ -96,6 +108,18 @@ class Networks {
         }
         
         let todoInformation = try JSONDecoder().decode([Todo].self, from: data)
+        return todoInformation
+    }
+    
+    func modifySuccessInfo(url: URL) async throws -> Todo {
+        let (data, response) = try await URLSession.shared.data(from: url)
+        
+        guard let httpResponse = response as? HTTPURLResponse,
+              (200..<300).contains(httpResponse.statusCode) else{
+            throw FetchError.invalidStatus
+        }
+        
+        let todoInformation = try JSONDecoder().decode(Todo.self, from: data)
         return todoInformation
     }
     

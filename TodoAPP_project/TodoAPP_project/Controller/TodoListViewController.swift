@@ -192,7 +192,7 @@ extension TodoListViewController : ButtonTappedDelegate {
 
                 cell.complete()
                 Network.todoDataSource[indexPath.row].isFinished = true
-                Network.modifyTodoList(title: title, description: "l", isFinished: true, endDate: currentIndexDate ?? "2023-12-01", id: id)
+                Network.modifySuccess(id)
             }
             
             else {
@@ -200,7 +200,7 @@ extension TodoListViewController : ButtonTappedDelegate {
 
                 cell.unComplete()
                 Network.todoDataSource[indexPath.row].isFinished = false
-                Network.modifyTodoList(title: title, description: "l", isFinished: false, endDate: currentIndexDate ?? "2023-12-01", id: id)
+                Network.modifySuccess(id)
             }
         }
     }
