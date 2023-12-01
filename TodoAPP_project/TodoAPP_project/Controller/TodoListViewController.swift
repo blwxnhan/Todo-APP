@@ -232,7 +232,7 @@ extension TodoListViewController : PlusListButtonDelegate {
             
             Network.createTodoList(title: text, description: "", endDate: dateToString, id: 2)
             print(text,dateToString)
-//            await saveData.fetchAllTodoList(2)
+            fetchAllTodoList(2)
             
             view.registerTextField.text = ""
         }
