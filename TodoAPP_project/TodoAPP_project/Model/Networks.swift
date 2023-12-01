@@ -71,19 +71,19 @@ class Networks {
         }
     }
     
-    func modifySuccess(_ id: Int) {
-        guard let url = URL(string: "http://hyeseong.na2ru2.me/api/tasks/\(id)") else { return }
-
-        Task {
-            do {
-                let todoInformation = try await self.modifySuccessInfo(url: url)
+//    func modifySuccess(_ id: Int) {
+//        guard let url = URL(string: "http://hyeseong.na2ru2.me/api/tasks/\(id)") else { return }
+//
+//        Task {
+//            do {
+//                let todoInformation = try await self.modifySuccessInfo(url: url)
 //                self.todoDataSource = todoInformation
-                print(todoDataSource)
-            } catch {
-                print("Error: \(error)")
-            }
-        }
-    }
+//                print(todoDataSource)
+//            } catch {
+//                print("Error: \(error)")
+//            }
+//        }
+//    }
     
     func deleteTodoList(_ id: Int) {
         guard let url = URL(string: "http://hyeseong.na2ru2.me/api/tasks/finish/\(id)") else { return }

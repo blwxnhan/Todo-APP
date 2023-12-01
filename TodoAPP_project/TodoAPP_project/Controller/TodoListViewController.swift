@@ -192,7 +192,7 @@ extension TodoListViewController : ButtonTappedDelegate {
 
                 cell.complete()
                 Network.todoDataSource[indexPath.row].isFinished = true
-                Network.modifySuccess(id)
+                Network.modifyTodoList(title: id, isFinished: true, id: 2)
             }
             
             else {
