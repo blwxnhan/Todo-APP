@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 class DetailViewController : UIViewController {
-    private let saveData = Networks.shared
+    private let saveData = NetworksSelect.shared
     
     var indexNumber = 0
 

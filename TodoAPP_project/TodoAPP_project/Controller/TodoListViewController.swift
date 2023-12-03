@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 class TodoListViewController: UIViewController {
-    private let Network = Networks.shared
+    private let Network = NetworksSelect.shared
     
     let scrollView = UIScrollView()
     
@@ -192,7 +192,7 @@ extension TodoListViewController : ButtonTappedDelegate {
 
                 cell.complete()
                 Network.todoDataSource[indexPath.row].isFinished = true
-                Network.modifyTodoList(title: id, isFinished: true, id: 2)
+                Network.modifyTodoList(title: title, description: "l", isFinished: true, endDate: currentIndexDate ?? "2023-12-01", id: id)
             }
             
             else {
@@ -200,7 +200,7 @@ extension TodoListViewController : ButtonTappedDelegate {
 
                 cell.unComplete()
                 Network.todoDataSource[indexPath.row].isFinished = false
-                Network.modifySuccess(id)
+                Network.modifyTodoList(title: title, description: "l", isFinished: false, endDate: currentIndexDate ?? "2023-12-01", id: id)
             }
         }
     }

@@ -12,8 +12,37 @@ enum FetchError: Error {
     case jsonDecodeError
 }
 
-class Networks {
-    static let shared = Networks()
+
+enum NetworkAPI {
+    case createTodo(title: String,
+                    description: String = "null",
+                    endDate: String = "null",
+                    id: Int)
+    case modifyTodo(title: String,
+                    description: String = "null" ,
+                    isFinished: Bool ,
+                    endDate: String = "null",
+                    id: Int)
+    case deleteTodo(_ id: Int)
+    case fetchTodo(_ id: Int)
+    
+    var baseURL: String {
+        return "http://hyeseong.na2ru2.me/api/tasks/"
+    }
+    
+    
+        
+    
+    
+
+}
+
+extension NetworkAPI {
+    
+}
+
+class NetworksSelect {
+    static let shared = NetworksSelect()
     
     var todoDataSource : [Todo] = []
     

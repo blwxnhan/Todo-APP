@@ -82,7 +82,7 @@ class LoginViewController : UIViewController {
         let tabBarVC = TabBarController()
         tabBarVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
         self.present(tabBarVC, animated: false, completion: nil)
-    } 
+    }
     
     @objc private func tabJoinButton(_: UIButton) {
         let joinVC = JoinViewController()
