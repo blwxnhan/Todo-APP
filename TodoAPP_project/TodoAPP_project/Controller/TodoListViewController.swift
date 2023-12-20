@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 class TodoListViewController: UIViewController {
-    private let Network = NetworksSelect.shared
+    private let Network = TodoNetworks.shared
     
     let scrollView = UIScrollView()
     
