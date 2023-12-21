@@ -123,9 +123,9 @@
 		2912F9C32B1326F5003F3A90 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				2912F9D02B1327F3003F3A90 /* Todo.swift */,
 				2912F9CE2B1327BD003F3A90 /* PaddingLabel.swift */,
 				2912F9D62B13290A003F3A90 /* Extension.swift */,
+				2912F9D02B1327F3003F3A90 /* Todo.swift */,
 				299311542B32DACF00B3E93C /* TodoAPI.swift */,
 				299311582B33E7C400B3E93C /* TodoManager.swift */,
 				299311562B33CCF500B3E93C /* RequestDTO.swift */,

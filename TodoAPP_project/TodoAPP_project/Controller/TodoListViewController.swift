@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class TodoListViewController: UIViewController {
+final class TodoListViewController: UIViewController {
     private let todoManager = TodoManager.shared
     
     let scrollView = UIScrollView()
@@ -20,6 +20,7 @@ class TodoListViewController: UIViewController {
         setLayout()
         configureTableView()
         configureScrollViewInset()
+        
         Task{
             try await TodoAPI.fetchTodo.performRequest()
             DispatchQueue.main.async {
@@ -107,13 +108,13 @@ extension TodoListViewController : UITableViewDataSource, UITableViewDelegate {
             if successOrNot {
                 cell.complete()
                 Task {
-                    TodoAPI.modifyTodoSuccess(id: id)
+                    try await TodoAPI.modifyTodoSuccess(id: id).performRequest()
                 }
             }
             else {
                 cell.unComplete()
                 Task {
-                    TodoAPI.modifyTodoSuccess(id: id)
+                    try await TodoAPI.modifyTodoSuccess(id: id).performRequest()
                 }
             }
         }
@@ -138,7 +139,7 @@ extension TodoListViewController : UITableViewDataSource, UITableViewDelegate {
         if editingStyle == .delete {
             let id = todoManager.todoDataSource[indexPath.row].id
             Task {
-                TodoAPI.deleteTodo(id: id)
+                try await TodoAPI.deleteTodo(id: id).performRequest()
             }
             todoManager.todoDataSource.remove(at: indexPath.row)
             

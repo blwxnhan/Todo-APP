@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class DetailViewController : UIViewController {
+final class DetailViewController : UIViewController {
     private let todoManager = TodoManager.shared
     
     var indexNumber = 0

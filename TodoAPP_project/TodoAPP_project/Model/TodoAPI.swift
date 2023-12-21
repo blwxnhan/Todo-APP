@@ -15,31 +15,23 @@ enum FetchError: Error {
 enum TodoAPI {
     static let baseURL = "http://hyeseong.na2ru2.me/api/tasks"
 
-    case createTodo(userid: Int,
-                    title: String,
-                    description: String,
-                    endDate: String)
-    
+    case createTodo(_ param: RequestDTO)
     case modifyTodoSuccess(id: Int)
     case deleteTodo(id: Int)
     case fetchTodo
-    case modifyTodo(id: Int,
-                    title: String,
-                    description: String,
-                    endDate: String,
-                    isFinished: Bool)
+    case modifyTodo(id: Int, _ param: RequestDTO)
     
     var path: String{
         switch self {
-        case .createTodo(let userid,_,_,_):
-            return "/\(userid)"
-        case .deleteTodo(let id):
-            return "/\(id)"
-        case .fetchTodo:
+        case .createTodo,
+             .fetchTodo:
+            
             return "/2"
-        case .modifyTodoSuccess(let id):
-            return "/\(id)"
-        case .modifyTodo(let id, _, _, _, _):
+        
+        case .deleteTodo(let id),
+             .modifyTodoSuccess(let id),
+             .modifyTodo(let id,_):
+            
             return "/\(id)"
         }
     }
@@ -48,12 +40,14 @@ enum TodoAPI {
         switch self {
         case .createTodo:
             return "POST"
+            
         case .deleteTodo:
             return "DELETE"
-        case .fetchTodo:
+            
+        case .fetchTodo,
+             .modifyTodoSuccess:
             return "GET"
-        case .modifyTodoSuccess:
-            return "GET"
+            
         case .modifyTodo:
             return "PUT"
         }
@@ -71,6 +65,7 @@ enum TodoAPI {
     }
         
     func performRequest(with parameters: Encodable? = nil) async throws {
+        //URLRequest 생성
         var request = self.request
 
         if let parameters = parameters {

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TabBarController : UITabBarController {
+final class TabBarController : UITabBarController {
     let todoListVC = UINavigationController(rootViewController: TodoListViewController())
     let settingVC = UINavigationController(rootViewController: SettingViewController())
     
