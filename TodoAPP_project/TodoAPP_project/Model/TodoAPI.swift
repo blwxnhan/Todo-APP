@@ -64,7 +64,7 @@ enum TodoAPI {
         return request
     }
         
-    func performRequest(with parameters: Encodable? = nil) async throws {
+    func performRequest(with parameters: Encodable? = nil) async throws -> Any {
         //URLRequest 생성
         var request = self.request
 
@@ -82,9 +82,13 @@ enum TodoAPI {
         if case .fetchTodo = self {
             let todoList = try JSONDecoder().decode([Todo].self, from: data)
             print("Todo List: \(todoList)")
+            
+            return todoList
         } else {
             let todo = try JSONDecoder().decode(Todo.self, from: data)
             print("Response data: \(todo)")
+            
+            return todo
         }
     }
 }

@@ -22,7 +22,9 @@ final class TodoListViewController: UIViewController {
         configureScrollViewInset()
         
         Task{
-            todoManager.todoDataSource = try await TodoAPI.fetchTodo.performRequest()
+            let todoList = try await TodoAPI.fetchTodo.performRequest()
+            todoManager.todoDataSource = todoList as! [Todo]
+            
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
