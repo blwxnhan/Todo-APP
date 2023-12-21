@@ -23,7 +23,7 @@ final class TodoListViewController: UIViewController {
         
         Task{
             let todoList = try await TodoAPI.fetchTodo.performRequest()
-            todoManager.todoDataSource = todoList as! [Todo]
+            todoManager.todoDataSource = todoList
             
             DispatchQueue.main.async {
                 self.tableView.reloadData()
@@ -133,6 +133,7 @@ extension TodoListViewController : UITableViewDataSource, UITableViewDelegate {
         let detailVC = DetailViewController()
         detailVC.detailViewListName.text = todoData.title
         detailVC.indexNumber = indexPath.row
+        detailVC.descriptionTextField.text = todoData.description
         
         self.navigationController?.pushViewController(detailVC, animated: true)
     }

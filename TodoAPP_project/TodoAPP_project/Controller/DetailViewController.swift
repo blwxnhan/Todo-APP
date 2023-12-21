@@ -51,6 +51,12 @@ final class DetailViewController : UIViewController {
         return view
     }()
     
+    var descriptionTextField : UITextField = {
+        let textField = UITextField()
+        
+        return textField
+    }()
+    
     private lazy var saveButton : UIButton = {
         let button = UIButton()
         button.setTitle("수정", for: .normal)
@@ -99,6 +105,7 @@ final class DetailViewController : UIViewController {
         [detailViewListName,
          dateConfigureLabel,
          endDateView,
+         descriptionTextField,
          saveButton].forEach {
             view.addSubview($0)
         }
@@ -120,8 +127,15 @@ final class DetailViewController : UIViewController {
             $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-20)
         }
         
+        descriptionTextField.snp.makeConstraints {
+            $0.top.equalTo(endDateView.snp.bottom).offset(20)
+            $0.leading.equalTo(view.safeAreaLayoutGuide).offset(30)
+            $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-30)
+            $0.height.equalTo(70)
+        }
+        
         saveButton.snp.makeConstraints {
-            $0.top.equalTo(endDateView.snp.bottom).offset(40)
+            $0.top.equalTo(descriptionTextField.snp.bottom).offset(40)
             $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-50)
             $0.width.equalTo(60)
         }
