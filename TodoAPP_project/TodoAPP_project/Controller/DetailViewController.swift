@@ -70,18 +70,19 @@ final class DetailViewController : UIViewController {
         let id = cellData.id
         let title = cellData.title
         var description = ""
-        
-        var isFinishedTodo : Bool?
-        if let isFinished = cellData.isFinished {
-            isFinishedTodo = isFinished
-        }
-
+            
         if let descriptionTodo = cellData.description {
             description = descriptionTodo
         }
         
+        let requestBody = RequestDTO(
+            title: title,
+            description: description,
+            endDate: selectedEndDate
+        )
+
         Task {
-            TodoAPI.modifyTodo(id: id, title: title, description: description, endDate: selectedEndDate, isFinished: isFinishedTodo ?? false)
+            try await TodoAPI.modifyTodo(id: id, requestBody).performRequest(with: requestBody)
         }
         
         configureDatePicker()

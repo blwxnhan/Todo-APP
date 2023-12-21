@@ -187,7 +187,7 @@ extension TodoListViewController : ButtonTappedDelegate {
 
                 cell.complete()
                 todoManager.todoDataSource[indexPath.row].isFinished = true
-//                Network.modifyTodoList(title: title, description: "l", isFinished: true, endDate: currentIndexDate ?? "2023-12-01", id: id)
+                
                 Task{
                     try await TodoAPI.deleteTodo(id: id).performRequest()
                 }
@@ -229,16 +229,21 @@ extension TodoListViewController : ButtonTappedDelegate {
 // MARK: - PlusListButtonDelegate extension
 extension TodoListViewController : PlusListButtonDelegate {
     func tabAddTodoButton(forView view: RegisterView) {
-        if let text = view.registerTextField.text, !text.isEmpty {
+        if let text = view.registerTextField.text {
             let date = Date.now
             let dateToString = date.toString()
             
-//            Network.createTodoList(title: text, description: "", endDate: dateToString, id: 2)
-//            fetchAllTodoList(2)
+            let requestBody = RequestDTO(
+                title: text,
+                description: "",
+                endDate: dateToString
+            )
 
             Task{
-//                try await TodoNetwork.TodoAPI.createTodo(userid: 3, title: text, description: "", endDate: dateToString).performRequest(with: newTodo)
+                try await TodoAPI.createTodo(requestBody).performRequest(with: requestBody)
+                try await TodoAPI.fetchTodo.performRequest()
             }
+            
             
             view.registerTextField.text = ""
         }

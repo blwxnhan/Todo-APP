@@ -14,6 +14,5 @@ class TodoManager{
     
     private init() {}
     
-    func invokeAPI() {
-    }
+    func invokeAPI() {}
 }
