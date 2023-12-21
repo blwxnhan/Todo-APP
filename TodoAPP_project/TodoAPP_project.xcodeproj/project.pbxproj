@@ -27,6 +27,8 @@
 		2912F9E32B135F9C003F3A90 /* SectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2912F9E22B135F9C003F3A90 /* SectionHeaderView.swift */; };
 		299311552B32DACF00B3E93C /* TodoAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 299311542B32DACF00B3E93C /* TodoAPI.swift */; };
 		299311572B33CCF500B3E93C /* RequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 299311562B33CCF500B3E93C /* RequestDTO.swift */; };
+		299311592B33E7C400B3E93C /* TodoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 299311582B33E7C400B3E93C /* TodoManager.swift */; };
+		2993115B2B33F7E600B3E93C /* ResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2993115A2B33F7E600B3E93C /* ResponseDTO.swift */; };
 		29F6AF022B1834CC00CEAC36 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29F6AF012B1834CC00CEAC36 /* LoginViewController.swift */; };
 		29F6AF042B18376900CEAC36 /* InputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29F6AF032B18376900CEAC36 /* InputView.swift */; };
 		29FE09E72B19B51E00BFE283 /* JoinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29FE09E62B19B51E00BFE283 /* JoinViewController.swift */; };
@@ -54,6 +56,8 @@
 		2912F9E22B135F9C003F3A90 /* SectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeaderView.swift; sourceTree = "<group>"; };
 		299311542B32DACF00B3E93C /* TodoAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoAPI.swift; sourceTree = "<group>"; };
 		299311562B33CCF500B3E93C /* RequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestDTO.swift; sourceTree = "<group>"; };
+		299311582B33E7C400B3E93C /* TodoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoManager.swift; sourceTree = "<group>"; };
+		2993115A2B33F7E600B3E93C /* ResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseDTO.swift; sourceTree = "<group>"; };
 		29F6AF012B1834CC00CEAC36 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		29F6AF032B18376900CEAC36 /* InputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputView.swift; sourceTree = "<group>"; };
 		29FE09E62B19B51E00BFE283 /* JoinViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinViewController.swift; sourceTree = "<group>"; };
@@ -123,7 +127,9 @@
 				2912F9CE2B1327BD003F3A90 /* PaddingLabel.swift */,
 				2912F9D62B13290A003F3A90 /* Extension.swift */,
 				299311542B32DACF00B3E93C /* TodoAPI.swift */,
+				299311582B33E7C400B3E93C /* TodoManager.swift */,
 				299311562B33CCF500B3E93C /* RequestDTO.swift */,
+				2993115A2B33F7E600B3E93C /* ResponseDTO.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -227,9 +233,11 @@
 				2912F9E12B135F73003F3A90 /* DateSelectView.swift in Sources */,
 				299311572B33CCF500B3E93C /* RequestDTO.swift in Sources */,
 				2912F9D52B1328F0003F3A90 /* SettingTableViewCell.swift in Sources */,
+				2993115B2B33F7E600B3E93C /* ResponseDTO.swift in Sources */,
 				2912F9E32B135F9C003F3A90 /* SectionHeaderView.swift in Sources */,
 				2912F9DB2B1329D2003F3A90 /* NavigationBarTitleView.swift in Sources */,
 				2912F9C82B13274C003F3A90 /* TodoListViewController.swift in Sources */,
+				299311592B33E7C400B3E93C /* TodoManager.swift in Sources */,
 				2912F9CF2B1327BD003F3A90 /* PaddingLabel.swift in Sources */,
 				29F6AF022B1834CC00CEAC36 /* LoginViewController.swift in Sources */,
 				2912F9DF2B135EDB003F3A90 /* DetailViewController.swift in Sources */,

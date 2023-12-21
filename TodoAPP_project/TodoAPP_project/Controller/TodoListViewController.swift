@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 class TodoListViewController: UIViewController {
-    private let Network = TodoNetwork.shared
+    private let todoManager = TodoManager.shared
     
     let scrollView = UIScrollView()
     
@@ -20,29 +20,14 @@ class TodoListViewController: UIViewController {
         setLayout()
         configureTableView()
         configureScrollViewInset()
-//        Task{
-             fetchAllTodoList(2)
-//            self.tableView.reloadData()
-//        }
+        Task{
+            try await TodoAPI.fetchTodo.performRequest()
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
     }
     
-//    func fetchAllTodoList(_ id: Int) {
-//        guard let url = URL(string: "http://hyeseong.na2ru2.me/api/members/tasks/\(id)") else { return }
-//    
-//        Task {
-//            do {
-//                let todoInformation = try await Network.fetchTodoInfo(url: url)
-//                Network.todoDataSource = todoInformation
-//                DispatchQueue.main.async {
-//                    self.tableView.reloadData()
-//                }
-//                print(Network.todoDataSource)
-//            } catch {
-//                print("Error: \(error)")
-//            }
-//        }
-//    }
-
 // MARK: - UI
     private lazy var tableView : UITableView = {
         let tableView = UITableView(frame: CGRect.zero, style: .grouped)
@@ -99,7 +84,7 @@ class TodoListViewController: UIViewController {
 // MARK: - UITableView extension
 extension TodoListViewController : UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let todoData = Network.todoDataSource[indexPath.row]
+        let todoData = todoManager.todoDataSource[indexPath.row]
 
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: TodoTableViewCell.identifier,
@@ -115,25 +100,32 @@ extension TodoListViewController : UITableViewDataSource, UITableViewDelegate {
         cell.delegate = self
         cell.selectionStyle = .none
         
+        let id = todoData.id
         let successOrNot = todoData.isFinished
         
         if let successOrNot = successOrNot {
             if successOrNot {
                 cell.complete()
+                Task {
+                    TodoAPI.modifyTodoSuccess(id: id)
+                }
             }
             else {
                 cell.unComplete()
+                Task {
+                    TodoAPI.modifyTodoSuccess(id: id)
+                }
             }
         }
         return cell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return Network.todoDataSource.count
+        return todoManager.todoDataSource.count
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let todoData = Network.todoDataSource[indexPath.row]
+        let todoData = todoManager.todoDataSource[indexPath.row]
 
         let detailVC = DetailViewController()
         detailVC.detailViewListName.text = todoData.title
@@ -144,9 +136,11 @@ extension TodoListViewController : UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            let id = Network.todoDataSource[indexPath.row].id
-            Network.deleteTodoList(id)
-            Network.todoDataSource.remove(at: indexPath.row)
+            let id = todoManager.todoDataSource[indexPath.row].id
+            Task {
+                TodoAPI.deleteTodo(id: id)
+            }
+            todoManager.todoDataSource.remove(at: indexPath.row)
             
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
@@ -176,7 +170,7 @@ extension TodoListViewController : ButtonTappedDelegate {
     func tapFinishButton(forCell cell: TodoTableViewCell) {
         guard let indexPath = tableView.indexPath(for: cell) else { return }
                 
-        let cellData = Network.todoDataSource[indexPath.row]
+        let cellData = todoManager.todoDataSource[indexPath.row]
         let id = cellData.id
         let title = cellData.title
         
@@ -191,29 +185,34 @@ extension TodoListViewController : ButtonTappedDelegate {
                 print(id,title,successOrNot)
 
                 cell.complete()
-                Network.todoDataSource[indexPath.row].isFinished = true
-                Network.modifyTodoList(title: title, description: "l", isFinished: true, endDate: currentIndexDate ?? "2023-12-01", id: id)
+                todoManager.todoDataSource[indexPath.row].isFinished = true
+//                Network.modifyTodoList(title: title, description: "l", isFinished: true, endDate: currentIndexDate ?? "2023-12-01", id: id)
+                Task{
+                    try await TodoAPI.deleteTodo(id: id).performRequest()
+                }
             }
             
             else {
                 print(id,title,successOrNot)
 
                 cell.unComplete()
-                Network.todoDataSource[indexPath.row].isFinished = false
-                Network.modifyTodoList(title: title, description: "l", isFinished: false, endDate: currentIndexDate ?? "2023-12-01", id: id)
+                todoManager.todoDataSource[indexPath.row].isFinished = false
+                Task{
+                    try await TodoAPI.deleteTodo(id: id).performRequest()
+                }
             }
         }
     }
     
     func tapDeleteButton(forCell cell: TodoTableViewCell) {
         if let indexPath = tableView.indexPath(for: cell),
-           indexPath.section < Network.todoDataSource.count {
-            let id = Network.todoDataSource[indexPath.row].id
+           indexPath.section < todoManager.todoDataSource.count {
+            let id = todoManager.todoDataSource[indexPath.row].id
             Task{
-                try await TodoNetwork.TodoAPI.deleteTodo(id: id).performRequest(with:)
+                try await TodoAPI.deleteTodo(id: id).performRequest()
             }
 
-            Network.todoDataSource.remove(at: indexPath.row)
+            todoManager.todoDataSource.remove(at: indexPath.row)
                 
             tableView.deleteRows(at: [indexPath], with: .fade)
                 
@@ -237,7 +236,7 @@ extension TodoListViewController : PlusListButtonDelegate {
 //            fetchAllTodoList(2)
 
             Task{
-                try await TodoNetwork.TodoAPI.createTodo(userid: 3, title: text, description: "", endDate: dateToString).performRequest(with: newTodo)
+//                try await TodoNetwork.TodoAPI.createTodo(userid: 3, title: text, description: "", endDate: dateToString).performRequest(with: newTodo)
             }
             
             view.registerTextField.text = ""
