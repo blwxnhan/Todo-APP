@@ -209,7 +209,10 @@ extension TodoListViewController : ButtonTappedDelegate {
         if let indexPath = tableView.indexPath(for: cell),
            indexPath.section < Network.todoDataSource.count {
             let id = Network.todoDataSource[indexPath.row].id
-            Network.deleteTodoList(id)
+            Task{
+                try await TodoNetwork.TodoAPI.deleteTodo(id: id).performRequest(with:)
+            }
+
             Network.todoDataSource.remove(at: indexPath.row)
                 
             tableView.deleteRows(at: [indexPath], with: .fade)

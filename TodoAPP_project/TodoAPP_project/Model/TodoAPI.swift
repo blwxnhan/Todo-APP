@@ -7,6 +7,10 @@
 
 import Foundation
 
+enum error {
+    
+}
+
 class TodoNetwork{
     static let shared = TodoNetwork()
 
