@@ -51,10 +51,22 @@ final class DetailViewController : UIViewController {
         return view
     }()
     
-    var descriptionTextField : UITextField = {
-        let textField = UITextField()
+    private let descriptionLabel : UILabel = {
+        let label = UILabel()
+        label.text = "메모"
+        label.font = UIFont.systemFont(ofSize: 25, weight: .semibold)
         
-        return textField
+        return label
+    }()
+    
+    var descriptionTextView : UITextView = {
+        let textView = UITextView()
+        textView.layer.cornerRadius = 15
+        textView.layer.borderColor = UIColor.lightGray.cgColor
+        textView.layer.borderWidth = 1
+        textView.font = UIFont.systemFont(ofSize: 15, weight: .light)
+        
+        return textView
     }()
     
     private lazy var saveButton : UIButton = {
@@ -105,7 +117,8 @@ final class DetailViewController : UIViewController {
         [detailViewListName,
          dateConfigureLabel,
          endDateView,
-         descriptionTextField,
+         descriptionLabel,
+         descriptionTextView,
          saveButton].forEach {
             view.addSubview($0)
         }
@@ -127,17 +140,25 @@ final class DetailViewController : UIViewController {
             $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-20)
         }
         
-        descriptionTextField.snp.makeConstraints {
-            $0.top.equalTo(endDateView.snp.bottom).offset(20)
+        descriptionLabel.snp.makeConstraints {
+            $0.top.equalTo(endDateView.snp.bottom).offset(40)
             $0.leading.equalTo(view.safeAreaLayoutGuide).offset(30)
             $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-30)
-            $0.height.equalTo(70)
+        }
+        
+        descriptionTextView.snp.makeConstraints {
+            $0.top.equalTo(descriptionLabel.snp.bottom).offset(20)
+            $0.leading.equalTo(view.safeAreaLayoutGuide).offset(30)
+            $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-30)
+            $0.height.equalTo(150)
         }
         
         saveButton.snp.makeConstraints {
-            $0.top.equalTo(descriptionTextField.snp.bottom).offset(40)
+            $0.top.equalTo(descriptionTextView.snp.bottom).offset(40)
             $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-50)
             $0.width.equalTo(60)
         }
     }
 }
+
+
