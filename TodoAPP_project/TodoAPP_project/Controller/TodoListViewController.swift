@@ -22,8 +22,8 @@ final class TodoListViewController: UIViewController {
         configureScrollViewInset()
         
         Task{
-            let todoList = try await TodoAPI.fetchTodo.performRequest()
-            todoManager.todoDataSource = todoList
+            try await TodoAPI.fetchTodo.performRequest()
+//            todoManager.todoDataSource = todoList
             
             DispatchQueue.main.async {
                 self.tableView.reloadData()
@@ -133,7 +133,7 @@ extension TodoListViewController : UITableViewDataSource, UITableViewDelegate {
         let detailVC = DetailViewController()
         detailVC.detailViewListName.text = todoData.title
         detailVC.indexNumber = indexPath.row
-        detailVC.descriptionTextField.text = todoData.description
+        detailVC.descriptionTextView.text = todoData.description
         
         self.navigationController?.pushViewController(detailVC, animated: true)
     }
@@ -246,7 +246,6 @@ extension TodoListViewController : PlusListButtonDelegate {
                 try await TodoAPI.createTodo(requestBody).performRequest(with: requestBody)
                 try await TodoAPI.fetchTodo.performRequest()
             }
-            
             
             view.registerTextField.text = ""
         }

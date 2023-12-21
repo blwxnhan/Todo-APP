@@ -64,7 +64,7 @@ enum TodoAPI {
         return request
     }
         
-    func performRequest(with parameters: Encodable? = nil) async throws -> [Todo] {
+    func performRequest(with parameters: Encodable? = nil) async throws {
         //URLRequest 생성
         var request = self.request
 
@@ -83,12 +83,12 @@ enum TodoAPI {
             let todoList = try JSONDecoder().decode([Todo].self, from: data)
             print("Todo List: \(todoList)")
             
-            return todoList
+//            return todoList
         } else {
             let todo = try JSONDecoder().decode(Todo.self, from: data)
             print("Response data: \(todo)")
             
-            return [todo]
+//            return [todo]
         }
     }
 }
