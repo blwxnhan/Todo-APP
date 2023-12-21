@@ -8,14 +8,14 @@
 import Foundation
 
 class TodoNetwork{
-    static let shared = TodoNetworks()
+    static let shared = TodoNetwork()
 
     var todoDataSource : [Todo] = []
 
     private init() {}
     
     enum TodoAPI {
-        static let baseURL = "http://hyeseong.na2ru2.me"
+        static let baseURL = "http://hyeseong.na2ru2.me/api/tasks"
 
         case createTodo(userid: Int,
                         title: String,
@@ -29,13 +29,13 @@ class TodoNetwork{
         var path: String{
             switch self {
             case .createTodo(let userid,_,_,_):
-                return "/api/tasks/\(userid)"
+                return "/\(userid)"
             case .deleteTodo(let id):
-                return "/api/tasks/\(id)"
+                return "/\(id)"
             case .fetchTodo:
-                return "/api/tasks/2"
+                return "/2"
             case .modifyTodo(let id):
-                return "/api/tasks/\(id)"
+                return "/\(id)"
             }
         }
         
@@ -85,10 +85,7 @@ class TodoNetwork{
                 print("Response data: \(todo)")
             }
         }
-
     }
-
-    
 }
 
 

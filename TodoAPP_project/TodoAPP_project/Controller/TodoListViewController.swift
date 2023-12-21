@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 class TodoListViewController: UIViewController {
-    private let Network = TodoNetworks.shared
+    private let Network = TodoNetwork.shared
     
     let scrollView = UIScrollView()
     
@@ -232,7 +232,10 @@ extension TodoListViewController : PlusListButtonDelegate {
             
 //            Network.createTodoList(title: text, description: "", endDate: dateToString, id: 2)
 //            fetchAllTodoList(2)
-            TodoAPI.createTodo(userid: 3, title: text, description: "", endDate: dateToString)
+
+            Task{
+                try await TodoNetwork.TodoAPI.createTodo(userid: 3, title: text, description: "", endDate: dateToString).performRequest(with: newTodo)
+            }
             
             view.registerTextField.text = ""
         }
