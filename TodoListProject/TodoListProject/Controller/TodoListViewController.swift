@@ -11,7 +11,6 @@ import SnapKit
 class TodoListViewController: UIViewController {
     private let saveData = SaveData.shared
     
-    var registerViewBottomConstraint : NSLayoutConstraint?
     let scrollView = UIScrollView()
     
     override func viewDidLoad() {
@@ -20,59 +19,11 @@ class TodoListViewController: UIViewController {
         view.backgroundColor = .white
         setLayout()
         configureTableView()
-        keyboardLayout()
         SaveData.shared.loadAllData()
         configureScrollViewInset()
         configureRegisterViewButtonTitle()
-    
-        self.view.gestureRecognizers?.removeAll()
     }
     
-// MARK: - keyboard
-    override func viewWillAppear(_ animated: Bool) {
-        self.addKeyboardNotifications()
-    }
-        
-    override func viewWillDisappear(_ animated: Bool) {
-        self.removeKeyboardNotifications()
-        saveData.saveAllData()
-    }
-    
-    func keyboardLayout() {
-        let safeArea = self.view.safeAreaLayoutGuide
-            
-        self.registerViewBottomConstraint = NSLayoutConstraint(item: self.registerView, attribute: .bottom, relatedBy: .equal, toItem: safeArea, attribute: .bottom, multiplier: 1.0, constant: 0)
-        self.registerViewBottomConstraint?.isActive = true
-    }
-        
-    func addKeyboardNotifications() {
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification , object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-    
-    func removeKeyboardNotifications() {
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification , object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-    
-    @objc func keyboardWillShow(_ noti: NSNotification) {
-        if let keyboardSize = (noti.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            let keyboardHeight: CGFloat
-            keyboardHeight = keyboardSize.height - self.view.safeAreaInsets.bottom
-            self.registerViewBottomConstraint?.constant = -1 * keyboardHeight
-            
-            self.view.layoutIfNeeded()
-        }
-    }
-
-    @objc func keyboardWillHide(_ noti: NSNotification) {
-        if let keyboardFrame: NSValue = noti.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-            let keyboardRectangle = keyboardFrame.cgRectValue
-            let keyboardHeight = keyboardRectangle.height
-            self.registerViewBottomConstraint?.constant = keyboardHeight
-            self.view.layoutIfNeeded()
-        }
-    }
 
 // MARK: - UI
     private lazy var tableView : UITableView = {
@@ -106,7 +57,7 @@ class TodoListViewController: UIViewController {
         }
         
         registerView.snp.makeConstraints {
-            $0.bottom.equalTo(view.safeAreaLayoutGuide)
+            $0.bottom.equalTo(view.keyboardLayoutGuide.snp.top)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(60)
         }

@@ -1,5 +1,5 @@
 //
-//  SettingSection.swift
+//  Model.swift
 //  TodoListProject
 //
 //  Created by Bowon Han on 11/19/23.
@@ -11,6 +11,8 @@ struct Model : Codable {
     var list : [TodoListModel]
     let sectionName : String
 }
+
+//mutating 
 
 struct TodoListModel : Codable {
     var success : Bool = false
