@@ -55,31 +55,29 @@ enum TodoAPI {
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         return request
     }
+        
+    func performRequest(with parameters: Encodable? = nil) async throws {
+        var request = self.request
 
-    
-    func performRequest() async throws {
-        do {
-            var request = self.request
-            let encoder = JSONEncoder()
+        if let parameters = parameters {
+            request.httpBody = try JSONEncoder().encode(parameters)
+        }
 
-            if case .createTodo(let id, let title, let description, let endDate) = self {
-                let todo = Todo(id: id, title: title, description: description, endDate: endDate)
-                request.httpBody = try encoder.encode(todo)
-            }
+        let (data, response) = try await URLSession.shared.data(for: request)
 
-            let (data, response) = try await URLSession.shared.data(for: request)
+        guard let httpResponse = response as? HTTPURLResponse,
+              (200..<300).contains(httpResponse.statusCode) else {
+            throw FetchError.invalidStatus
+        }
 
-            guard let httpResponse = response as? HTTPURLResponse,
-                  (200..<300).contains(httpResponse.statusCode) else {
-                throw FetchError.invalidStatus
-            }
-
-            print("Response data: \(data)")
-        } catch {
-            throw error
+        if case .fetchTodo = self {
+            let todoList = try JSONDecoder().decode([Todo].self, from: data)
+            print("Todo List: \(todoList)")
+        } else {
+            let todo = try JSONDecoder().decode(Todo.self, from: data)
+            print("Response data: \(todo)")
         }
     }
-    
 
 }
 
