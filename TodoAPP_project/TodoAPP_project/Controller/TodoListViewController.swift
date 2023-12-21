@@ -26,22 +26,22 @@ class TodoListViewController: UIViewController {
 //        }
     }
     
-    func fetchAllTodoList(_ id: Int) {
-        guard let url = URL(string: "http://hyeseong.na2ru2.me/api/members/tasks/\(id)") else { return }
-    
-        Task {
-            do {
-                let todoInformation = try await Network.fetchTodoInfo(url: url)
-                Network.todoDataSource = todoInformation
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
-                print(Network.todoDataSource)
-            } catch {
-                print("Error: \(error)")
-            }
-        }
-    }
+//    func fetchAllTodoList(_ id: Int) {
+//        guard let url = URL(string: "http://hyeseong.na2ru2.me/api/members/tasks/\(id)") else { return }
+//    
+//        Task {
+//            do {
+//                let todoInformation = try await Network.fetchTodoInfo(url: url)
+//                Network.todoDataSource = todoInformation
+//                DispatchQueue.main.async {
+//                    self.tableView.reloadData()
+//                }
+//                print(Network.todoDataSource)
+//            } catch {
+//                print("Error: \(error)")
+//            }
+//        }
+//    }
 
 // MARK: - UI
     private lazy var tableView : UITableView = {
@@ -230,9 +230,9 @@ extension TodoListViewController : PlusListButtonDelegate {
             let date = Date.now
             let dateToString = date.toString()
             
-            Network.createTodoList(title: text, description: "", endDate: dateToString, id: 2)
-            print(text,dateToString)
-            fetchAllTodoList(2)
+//            Network.createTodoList(title: text, description: "", endDate: dateToString, id: 2)
+//            fetchAllTodoList(2)
+            TodoAPI.createTodo(userid: 3, title: text, description: "", endDate: dateToString)
             
             view.registerTextField.text = ""
         }
