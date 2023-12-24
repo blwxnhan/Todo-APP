@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		290771FB2B37FC300007DAE8 /* ErrorStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290771FA2B37FC300007DAE8 /* ErrorStatus.swift */; };
 		290771FF2B3823810007DAE8 /* AuthenticationAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290771FE2B3823810007DAE8 /* AuthenticationAPI.swift */; };
-		290772012B3825250007DAE8 /* TokenUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290772002B3825250007DAE8 /* TokenUserDefaults.swift */; };
+		290772012B3825250007DAE8 /* TokenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290772002B3825250007DAE8 /* TokenManager.swift */; };
 		290772032B3825970007DAE8 /* TokenModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290772022B3825970007DAE8 /* TokenModel.swift */; };
 		290772052B384A780007DAE8 /* Member.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290772042B384A780007DAE8 /* Member.swift */; };
 		2912F9AF2B1326B4003F3A90 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2912F9AE2B1326B4003F3A90 /* AppDelegate.swift */; };
@@ -33,7 +33,6 @@
 		299311552B32DACF00B3E93C /* TodoAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 299311542B32DACF00B3E93C /* TodoAPI.swift */; };
 		299311572B33CCF500B3E93C /* RequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 299311562B33CCF500B3E93C /* RequestDTO.swift */; };
 		299311592B33E7C400B3E93C /* TodoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 299311582B33E7C400B3E93C /* TodoManager.swift */; };
-		2993115B2B33F7E600B3E93C /* ResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2993115A2B33F7E600B3E93C /* ResponseDTO.swift */; };
 		29F6AF022B1834CC00CEAC36 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29F6AF012B1834CC00CEAC36 /* LoginViewController.swift */; };
 		29F6AF042B18376900CEAC36 /* InputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29F6AF032B18376900CEAC36 /* InputView.swift */; };
 		29FE09E72B19B51E00BFE283 /* JoinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29FE09E62B19B51E00BFE283 /* JoinViewController.swift */; };
@@ -42,7 +41,7 @@
 /* Begin PBXFileReference section */
 		290771FA2B37FC300007DAE8 /* ErrorStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorStatus.swift; sourceTree = "<group>"; };
 		290771FE2B3823810007DAE8 /* AuthenticationAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationAPI.swift; sourceTree = "<group>"; };
-		290772002B3825250007DAE8 /* TokenUserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenUserDefaults.swift; sourceTree = "<group>"; };
+		290772002B3825250007DAE8 /* TokenManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenManager.swift; sourceTree = "<group>"; };
 		290772022B3825970007DAE8 /* TokenModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenModel.swift; sourceTree = "<group>"; };
 		290772042B384A780007DAE8 /* Member.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Member.swift; sourceTree = "<group>"; };
 		2912F9AB2B1326B4003F3A90 /* TodoAPP_project.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TodoAPP_project.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -67,7 +66,6 @@
 		299311542B32DACF00B3E93C /* TodoAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoAPI.swift; sourceTree = "<group>"; };
 		299311562B33CCF500B3E93C /* RequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestDTO.swift; sourceTree = "<group>"; };
 		299311582B33E7C400B3E93C /* TodoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoManager.swift; sourceTree = "<group>"; };
-		2993115A2B33F7E600B3E93C /* ResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseDTO.swift; sourceTree = "<group>"; };
 		29F6AF012B1834CC00CEAC36 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		29F6AF032B18376900CEAC36 /* InputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputView.swift; sourceTree = "<group>"; };
 		29FE09E62B19B51E00BFE283 /* JoinViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinViewController.swift; sourceTree = "<group>"; };
@@ -139,10 +137,9 @@
 				299311542B32DACF00B3E93C /* TodoAPI.swift */,
 				299311582B33E7C400B3E93C /* TodoManager.swift */,
 				299311562B33CCF500B3E93C /* RequestDTO.swift */,
-				2993115A2B33F7E600B3E93C /* ResponseDTO.swift */,
 				290771FA2B37FC300007DAE8 /* ErrorStatus.swift */,
 				290771FE2B3823810007DAE8 /* AuthenticationAPI.swift */,
-				290772002B3825250007DAE8 /* TokenUserDefaults.swift */,
+				290772002B3825250007DAE8 /* TokenManager.swift */,
 				290772022B3825970007DAE8 /* TokenModel.swift */,
 				290772042B384A780007DAE8 /* Member.swift */,
 			);
@@ -239,7 +236,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2912F9D32B1328D3003F3A90 /* RegisterView.swift in Sources */,
-				290772012B3825250007DAE8 /* TokenUserDefaults.swift in Sources */,
+				290772012B3825250007DAE8 /* TokenManager.swift in Sources */,
 				290771FB2B37FC300007DAE8 /* ErrorStatus.swift in Sources */,
 				2912F9C62B13271E003F3A90 /* TabBarController.swift in Sources */,
 				290772052B384A780007DAE8 /* Member.swift in Sources */,
@@ -252,7 +249,6 @@
 				2912F9E12B135F73003F3A90 /* DateSelectView.swift in Sources */,
 				299311572B33CCF500B3E93C /* RequestDTO.swift in Sources */,
 				2912F9D52B1328F0003F3A90 /* SettingTableViewCell.swift in Sources */,
-				2993115B2B33F7E600B3E93C /* ResponseDTO.swift in Sources */,
 				2912F9E32B135F9C003F3A90 /* SectionHeaderView.swift in Sources */,
 				2912F9DB2B1329D2003F3A90 /* NavigationBarTitleView.swift in Sources */,
 				2912F9C82B13274C003F3A90 /* TodoListViewController.swift in Sources */,

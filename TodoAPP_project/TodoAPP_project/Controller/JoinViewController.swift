@@ -42,15 +42,46 @@ final class JoinViewController : UIViewController {
         return inputView
     }()
     
+    var invaildInputLabel : UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 15, weight: .thin)
+        label.textAlignment = .center
+        
+        return label
+    }()
+    
+    private let buttonStackView : UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.spacing = 20
+        stackView.distribution = .fillEqually
+        stackView.alignment = .center
+        
+        return stackView
+    }()
+    
     private lazy var joinButton : UIButton = {
         let button = UIButton()
-        button.setTitle("join", for: .normal)
+        button.setTitle("Join", for: .normal)
+        button.tintColor = .white
+        button.layer.borderWidth = 10
+        button.layer.cornerRadius = 10
+        button.layer.borderColor = UIColor.darkGreen.cgColor
+        button.layer.backgroundColor = UIColor.darkGreen.cgColor
+        button.addTarget(self, action: #selector(tabJoinButton), for: .touchUpInside)
+        
+        return button
+    }()
+    
+    private lazy var backLoginButton : UIButton = {
+        let button = UIButton()
+        button.setTitle("Login", for: .normal)
         button.tintColor = .white
         button.layer.borderWidth = 10
         button.layer.cornerRadius = 10
         button.layer.borderColor = UIColor.darkYellow.cgColor
         button.layer.backgroundColor = UIColor.darkYellow.cgColor
-        button.addTarget(self, action: #selector(tabJoinButton), for: .touchUpInside)
+        button.addTarget(self, action: #selector(tabBackLoginButton), for: .touchUpInside)
         
         return button
     }()
@@ -61,7 +92,11 @@ final class JoinViewController : UIViewController {
         setLayout()
     }
     
-    @objc private func tabJoinButton() {
+    @objc private func tabBackLoginButton(_:UIButton) {
+        self.dismiss(animated: false)
+    }
+    
+    @objc private func tabJoinButton(_:UIButton) {
         var joinSuccess = false
         
         var memberId = ""
@@ -82,19 +117,19 @@ final class JoinViewController : UIViewController {
         
         if (joinEmail.inputTextField.text == "" ||
             joinPassword.inputTextField.text == "" ||
-            joinNickname.inputTextField.text) {
-            invaildInputLabel.text = "이메일과 비밀번호를 입력해주세요"
+            joinNickname.inputTextField.text == "") {
+            invaildInputLabel.text = "이메일, 비밀번호, 닉네임을 입력해주세요"
         }
         
         else {
             let requestBody = Member(
-                id: text,
-                password: ,
-                nickname:
+                id: memberId,
+                password: memberPassword,
+                nickname: memberNickname
             )
             
             Task {
-                joinSuccess = try await AuthenticationAPI.join(<#T##param: Member##Member#>).performRequest()
+                joinSuccess = try await AuthenticationAPI.join(requestBody).performRequest()
             }
             
             if joinSuccess == true {
@@ -104,15 +139,19 @@ final class JoinViewController : UIViewController {
                 invaildInputLabel.text = "이메일과 비밀번호를 다시 입력해주세요"
             }
         }
-
     }
     
     private func setLayout() {
+        [backLoginButton,joinButton].forEach {
+            buttonStackView.addArrangedSubview($0)
+        }
+        
         [joinLabel,
          joinNickname,
          joinPassword,
          joinEmail,
-         joinButton].forEach {
+         invaildInputLabel,
+         buttonStackView].forEach {
             view.addSubview($0)
         }
                 
@@ -136,10 +175,17 @@ final class JoinViewController : UIViewController {
             $0.leading.equalTo(view.safeAreaLayoutGuide).offset(40)
         }
         
-        joinButton.snp.makeConstraints {
-            $0.top.equalTo(joinPassword.snp.bottom).offset(50)
+        invaildInputLabel.snp.makeConstraints {
+            $0.top.equalTo(joinPassword.snp.bottom).offset(30)
+            $0.leading.equalTo(view.safeAreaLayoutGuide).offset(40)
             $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-40)
-            $0.width.equalTo(100)
+            $0.height.equalTo(40)
+        }
+        
+        buttonStackView.snp.makeConstraints {
+            $0.top.equalTo(invaildInputLabel.snp.bottom).offset(30)
+            $0.leading.equalTo(view.safeAreaLayoutGuide).offset(40)
+            $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-40)
             $0.height.equalTo(40)
         }
     }
