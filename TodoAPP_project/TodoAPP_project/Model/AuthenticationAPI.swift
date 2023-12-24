@@ -7,8 +7,8 @@
 
 import Foundation
 
-enum LoginAPI {
-    static let loginURL = "http://hyeseong.na2ru2.me/api/members"
+enum AuthenticationAPI {
+    static let authenticationURL = "http://hyeseong.na2ru2.me/api/members"
     
     case login (_ id: String,_ password: String)
     case join (_ param: Member)
@@ -31,7 +31,7 @@ enum LoginAPI {
     }
     
     var url: URL {
-        let url = LoginAPI.loginURL + path
+        let url = AuthenticationAPI.authenticationURL + path
         return URL(string: url.stringByAddingPercentEncodingForRFC3986() ?? "")!
     }
     

@@ -6,3 +6,9 @@
 //
 
 import Foundation
+
+struct Member {
+    var id : String
+    var password : String
+    var nickname : String
+}

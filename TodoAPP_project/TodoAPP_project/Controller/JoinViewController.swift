@@ -62,7 +62,49 @@ final class JoinViewController : UIViewController {
     }
     
     @objc private func tabJoinButton() {
-        self.dismiss(animated: false)
+        var joinSuccess = false
+        
+        var memberId = ""
+        var memberPassword = ""
+        var memberNickname = ""
+        
+        if let id = joinEmail.inputTextField.text {
+            memberId = id
+        }
+        
+        if let password = joinPassword.inputTextField.text {
+            memberPassword = password
+        }
+        
+        if let nickname = joinNickname.inputTextField.text {
+            memberNickname = nickname
+        }
+        
+        if (joinEmail.inputTextField.text == "" ||
+            joinPassword.inputTextField.text == "" ||
+            joinNickname.inputTextField.text) {
+            invaildInputLabel.text = "이메일과 비밀번호를 입력해주세요"
+        }
+        
+        else {
+            let requestBody = Member(
+                id: text,
+                password: ,
+                nickname:
+            )
+            
+            Task {
+                joinSuccess = try await AuthenticationAPI.join(<#T##param: Member##Member#>).performRequest()
+            }
+            
+            if joinSuccess == true {
+                self.dismiss(animated: false)
+            }
+            else {
+                invaildInputLabel.text = "이메일과 비밀번호를 다시 입력해주세요"
+            }
+        }
+
     }
     
     private func setLayout() {

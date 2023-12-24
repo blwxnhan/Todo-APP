@@ -59,7 +59,8 @@ enum TodoAPI {
         var request = URLRequest(url: url)
         request.httpMethod = method
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.addValue("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4Iiwicm9sZXMiOlsiUk9MRV9VU0VSIl0sImlhdCI6MTcwMzQwMTg5MCwiZXhwIjoxNzAzNDA1NDkwfQ.0lq_64y08bqQZL76CoHvreKH_bX9GAdrvFUaL-yc9Ms", forHTTPHeaderField: "X-AUTH-TOKEN")
+        request.addValue(TokenUserDefaults.token.tokens?.accessToken ?? "",
+                         forHTTPHeaderField: "Authentication")
         return request
     }
         

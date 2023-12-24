@@ -83,7 +83,7 @@ final class DetailViewController : UIViewController {
         return button
     }()
     
-    @objc func tabSaveButton(_ :UIButton) {        
+    @objc func tabSaveButton(_ :UIButton) {
         let cellData = todoManager.todoDataSource[indexNumber]
         let id = cellData.id
         var title = cellData.title
