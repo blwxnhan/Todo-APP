@@ -20,14 +20,21 @@ final class TodoListViewController: UIViewController {
         setLayout()
         configureTableView()
         configureScrollViewInset()
-        
-        Task{
-            try await TodoAPI.fetchTodo.performRequest()
-            
-            DispatchQueue.main.async {
+                
+        Task {
+            do {
+                try await TodoAPI.fetchTodo.performRequest()
+                            
                 self.tableView.reloadData()
             }
+            catch{
+                print("error: \(error)")
+            }
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.tableView.reloadData()
     }
     
 // MARK: - UI
@@ -130,7 +137,7 @@ extension TodoListViewController : UITableViewDataSource, UITableViewDelegate {
         let todoData = todoManager.todoDataSource[indexPath.row]
 
         let detailVC = DetailViewController()
-        detailVC.detailViewListName.text = todoData.title
+        detailVC.detailViewTitle.text = todoData.title
         detailVC.indexNumber = indexPath.row
         detailVC.descriptionTextView.text = todoData.description
         
@@ -175,33 +182,26 @@ extension TodoListViewController : ButtonTappedDelegate {
                 
         let cellData = todoManager.todoDataSource[indexPath.row]
         let id = cellData.id
-        let title = cellData.title
-        
-        var currentIndexDate : String?
-        
-        if let currentIndexDate = cellData.endDate?.toString() { }
-        
-        //if let description = cellData.description {}
         
         if let successOrNot = cellData.isFinished {
             if !successOrNot {
-                print(id,title,successOrNot)
+                print(id,successOrNot)
 
                 cell.complete()
                 todoManager.todoDataSource[indexPath.row].isFinished = true
                 
                 Task{
-                    try await TodoAPI.deleteTodo(id: id).performRequest()
+                    try await TodoAPI.modifyTodoSuccess(id: id).performRequest()
                 }
             }
             
             else {
-                print(id,title,successOrNot)
+                print(id,successOrNot)
 
                 cell.unComplete()
                 todoManager.todoDataSource[indexPath.row].isFinished = false
                 Task{
-                    try await TodoAPI.deleteTodo(id: id).performRequest()
+                    try await TodoAPI.modifyTodoSuccess(id: id).performRequest()
                 }
             }
         }
@@ -211,6 +211,7 @@ extension TodoListViewController : ButtonTappedDelegate {
         if let indexPath = tableView.indexPath(for: cell),
            indexPath.section < todoManager.todoDataSource.count {
             let id = todoManager.todoDataSource[indexPath.row].id
+            print(id)
             Task{
                 try await TodoAPI.deleteTodo(id: id).performRequest()
             }
@@ -244,6 +245,7 @@ extension TodoListViewController : PlusListButtonDelegate {
             Task{
                 try await TodoAPI.createTodo(requestBody).performRequest(with: requestBody)
                 try await TodoAPI.fetchTodo.performRequest()
+                self.tableView.reloadData()
             }
             
             view.registerTextField.text = ""

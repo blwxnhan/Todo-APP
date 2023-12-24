@@ -59,7 +59,7 @@ enum TodoAPI {
         var request = URLRequest(url: url)
         request.httpMethod = method
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.addValue("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4Iiwicm9sZXMiOlsiUk9MRV9VU0VSIl0sImlhdCI6MTcwMzM5NTUyOSwiZXhwIjoxNzAzMzk5MTI5fQ.FjlcRXzNRIodTPCffeg_YwnnOIkGj2RlGXD8dfAzdAI", forHTTPHeaderField: "X-AUTH-TOKEN")
+        request.addValue("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4Iiwicm9sZXMiOlsiUk9MRV9VU0VSIl0sImlhdCI6MTcwMzQwMTg5MCwiZXhwIjoxNzAzNDA1NDkwfQ.0lq_64y08bqQZL76CoHvreKH_bX9GAdrvFUaL-yc9Ms", forHTTPHeaderField: "X-AUTH-TOKEN")
         return request
     }
         
@@ -70,6 +70,8 @@ enum TodoAPI {
         if let parameters = parameters {
             request.httpBody = try JSONEncoder().encode(parameters)
         }
+        
+        print(request)
 
         // 실제로 request를 보내서 network를 하는 부분
         let (data, response) = try await URLSession.shared.data(for: request)
@@ -81,22 +83,25 @@ enum TodoAPI {
         //response가 200번대인지 확인하는 부분
         if (200..<300).contains(httpResponse.statusCode) {
             // Handle success (200번대)
-            let dataContent = try JSONDecoder().decode(ErrorStatus.self, from: data)
-            print("Response Data: \(dataContent.msg)")
+            if case .fetchTodo = self {
+                let todoList = try JSONDecoder().decode([Todo].self, from: data)
+                
+                TodoManager.shared.todoDataSource = todoList
+                
+                print("Todo List: \(TodoManager.shared.todoDataSource)")
 
-        } else if (400..<500).contains(httpResponse.statusCode) {
+            }
+            else {
+                let dataContent = try JSONDecoder().decode(ErrorStatus.self, from: data)
+                print("Response Data: \(dataContent.msg)")
+            }
+        } 
+        else if (400..<500).contains(httpResponse.statusCode) {
             // Handle client error (4xx)
             let dataContent = try JSONDecoder().decode(ErrorStatus.self, from: data)
             print("Response Data: \(dataContent.msg)")
             print("error: \(httpResponse.statusCode)")
         }
         
-        if case .fetchTodo = self {
-            let todoList = try JSONDecoder().decode([Todo].self, from: data)
-            TodoManager.shared.todoDataSource = todoList
-            
-            print("Todo List: \(todoList)")
-        }
     }
 }
-
