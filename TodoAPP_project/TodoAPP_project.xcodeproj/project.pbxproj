@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		290771FB2B37FC300007DAE8 /* ErrorStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290771FA2B37FC300007DAE8 /* ErrorStatus.swift */; };
 		2912F9AF2B1326B4003F3A90 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2912F9AE2B1326B4003F3A90 /* AppDelegate.swift */; };
 		2912F9B12B1326B4003F3A90 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2912F9B02B1326B4003F3A90 /* SceneDelegate.swift */; };
 		2912F9B82B1326B5003F3A90 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2912F9B72B1326B5003F3A90 /* Assets.xcassets */; };
@@ -35,6 +36,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		290771FA2B37FC300007DAE8 /* ErrorStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorStatus.swift; sourceTree = "<group>"; };
 		2912F9AB2B1326B4003F3A90 /* TodoAPP_project.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TodoAPP_project.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2912F9AE2B1326B4003F3A90 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2912F9B02B1326B4003F3A90 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -130,6 +132,7 @@
 				299311582B33E7C400B3E93C /* TodoManager.swift */,
 				299311562B33CCF500B3E93C /* RequestDTO.swift */,
 				2993115A2B33F7E600B3E93C /* ResponseDTO.swift */,
+				290771FA2B37FC300007DAE8 /* ErrorStatus.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -224,6 +227,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2912F9D32B1328D3003F3A90 /* RegisterView.swift in Sources */,
+				290771FB2B37FC300007DAE8 /* ErrorStatus.swift in Sources */,
 				2912F9C62B13271E003F3A90 /* TabBarController.swift in Sources */,
 				2912F9D92B132987003F3A90 /* TodoTableViewCell.swift in Sources */,
 				2912F9AF2B1326B4003F3A90 /* AppDelegate.swift in Sources */,

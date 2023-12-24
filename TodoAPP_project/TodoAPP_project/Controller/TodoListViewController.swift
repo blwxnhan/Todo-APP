@@ -23,7 +23,6 @@ final class TodoListViewController: UIViewController {
         
         Task{
             try await TodoAPI.fetchTodo.performRequest()
-//            todoManager.todoDataSource = todoList
             
             DispatchQueue.main.async {
                 self.tableView.reloadData()
