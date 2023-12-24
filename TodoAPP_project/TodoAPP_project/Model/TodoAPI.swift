@@ -72,8 +72,10 @@ enum TodoAPI {
             request.httpBody = try JSONEncoder().encode(parameters)
         }
 
+        //실제 요청을 하는 부분
         let (data, response) = try await URLSession.shared.data(for: request)
 
+        //응답이 200번대인지 확인하는 부분
         guard let httpResponse = response as? HTTPURLResponse,
               (200..<300).contains(httpResponse.statusCode) else {
             throw FetchError.invalidStatus
