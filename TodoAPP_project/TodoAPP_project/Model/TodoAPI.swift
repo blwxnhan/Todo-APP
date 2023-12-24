@@ -13,34 +13,24 @@ enum FetchError: Error {
 }
     
 enum TodoAPI {
-    static let baseURL = "http://hyeseong.na2ru2.me/api/tasks"
+    static let baseURL = "http://hyeseong.na2ru2.me/api"
 
-    case createTodo(userid: Int,
-                    title: String,
-                    description: String,
-                    endDate: String)
-    
+    case createTodo(_ param: RequestDTO)
     case modifyTodoSuccess(id: Int)
     case deleteTodo(id: Int)
     case fetchTodo
-    case modifyTodo(id: Int,
-                    title: String,
-                    description: String,
-                    endDate: String,
-                    isFinished: Bool)
+    case modifyTodo(id: Int, _ param: RequestDTO)
     
     var path: String{
         switch self {
-        case .createTodo(let userid,_,_,_):
-            return "/\(userid)"
-        case .deleteTodo(let id):
-            return "/\(id)"
         case .fetchTodo:
-            return "/2"
-        case .modifyTodoSuccess(let id):
-            return "/\(id)"
-        case .modifyTodo(let id, _, _, _, _):
-            return "/\(id)"
+            return "/members/tasks/8"
+        case .createTodo:
+            return "/tasks/8"
+        case .deleteTodo(let id),
+             .modifyTodoSuccess(let id),
+             .modifyTodo(let id,_):
+            return "/tasks/\(id)"
         }
     }
     
@@ -48,12 +38,14 @@ enum TodoAPI {
         switch self {
         case .createTodo:
             return "POST"
+            
         case .deleteTodo:
             return "DELETE"
-        case .fetchTodo:
+            
+        case .fetchTodo,
+             .modifyTodoSuccess:
             return "GET"
-        case .modifyTodoSuccess:
-            return "GET"
+            
         case .modifyTodo:
             return "PUT"
         }
@@ -67,31 +59,49 @@ enum TodoAPI {
         var request = URLRequest(url: url)
         request.httpMethod = method
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4Iiwicm9sZXMiOlsiUk9MRV9VU0VSIl0sImlhdCI6MTcwMzQwMTg5MCwiZXhwIjoxNzAzNDA1NDkwfQ.0lq_64y08bqQZL76CoHvreKH_bX9GAdrvFUaL-yc9Ms", forHTTPHeaderField: "X-AUTH-TOKEN")
         return request
     }
         
     func performRequest(with parameters: Encodable? = nil) async throws {
+        //URLRequest 생성
         var request = self.request
 
         if let parameters = parameters {
             request.httpBody = try JSONEncoder().encode(parameters)
         }
+        
+        print(request)
 
+        // 실제로 request를 보내서 network를 하는 부분
         let (data, response) = try await URLSession.shared.data(for: request)
 
-        guard let httpResponse = response as? HTTPURLResponse,
-              (200..<300).contains(httpResponse.statusCode) else {
+        guard let httpResponse = response as? HTTPURLResponse else {
             throw FetchError.invalidStatus
         }
+        
+        //response가 200번대인지 확인하는 부분
+        if (200..<300).contains(httpResponse.statusCode) {
+            // Handle success (200번대)
+            if case .fetchTodo = self {
+                let todoList = try JSONDecoder().decode([Todo].self, from: data)
+                
+                TodoManager.shared.todoDataSource = todoList
+                
+                print("Todo List: \(TodoManager.shared.todoDataSource)")
 
-        if case .fetchTodo = self {
-            let todoList = try JSONDecoder().decode([Todo].self, from: data)
-            print("Todo List: \(todoList)")
-        } else {
-            let todo = try JSONDecoder().decode(Todo.self, from: data)
-            print("Response data: \(todo)")
+            }
+            else {
+                let dataContent = try JSONDecoder().decode(ErrorStatus.self, from: data)
+                print("Response Data: \(dataContent.msg)")
+            }
+        } 
+        else if (400..<500).contains(httpResponse.statusCode) {
+            // Handle client error (4xx)
+            let dataContent = try JSONDecoder().decode(ErrorStatus.self, from: data)
+            print("Response Data: \(dataContent.msg)")
+            print("error: \(httpResponse.statusCode)")
         }
+        
     }
 }
-
-

@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class DetailViewController : UIViewController {
+final class DetailViewController : UIViewController {
     private let todoManager = TodoManager.shared
     
     var indexNumber = 0
@@ -23,17 +23,18 @@ class DetailViewController : UIViewController {
         setLayout()
         configureDatePicker()
     }
-    
-    var detailViewListName : UILabel = {
-        var label = UILabel()
-        label = PaddingLabel(padding: UIEdgeInsets(top: 10, left: 16, bottom: 10, right: 16))
-        label.font = UIFont.systemFont(ofSize: 30, weight: .bold)
-        label.layer.borderWidth = 10
-        label.layer.cornerRadius = 10
-        label.layer.backgroundColor = UIColor.darkYellow.cgColor
-        label.layer.borderColor = UIColor.darkYellow.cgColor
         
-        return label
+    var detailViewTitle : UITextField = {
+        var textField = UITextField()
+        textField.layer.cornerRadius = 6
+        textField.layer.borderWidth = 1
+        textField.layer.borderColor = UIColor.darkYellow.cgColor
+        textField.layer.backgroundColor = UIColor.darkYellow.cgColor
+        textField.leftView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 16.0, height: 0.0))
+        textField.leftViewMode = .always
+        textField.font = UIFont.systemFont(ofSize: 30, weight: .bold)
+        
+        return textField
     }()
     
     private let dateConfigureLabel : UILabel = {
@@ -51,6 +52,24 @@ class DetailViewController : UIViewController {
         return view
     }()
     
+    private let descriptionLabel : UILabel = {
+        let label = UILabel()
+        label.text = "메모"
+        label.font = UIFont.systemFont(ofSize: 25, weight: .semibold)
+        
+        return label
+    }()
+    
+    var descriptionTextView : UITextView = {
+        let textView = UITextView()
+        textView.layer.cornerRadius = 15
+        textView.layer.borderColor = UIColor.lightGray.cgColor
+        textView.layer.borderWidth = 1
+        textView.font = UIFont.systemFont(ofSize: 15, weight: .light)
+        
+        return textView
+    }()
+    
     private lazy var saveButton : UIButton = {
         let button = UIButton()
         button.setTitle("수정", for: .normal)
@@ -64,27 +83,35 @@ class DetailViewController : UIViewController {
         return button
     }()
     
-    @objc func tabSaveButton(_ :UIButton) {
-        let selectedEndDate = endDateView.dataPicker.date.toString()
+    @objc func tabSaveButton(_ :UIButton) {        
         let cellData = todoManager.todoDataSource[indexNumber]
         let id = cellData.id
-        let title = cellData.title
-        var description = ""
+        var title = cellData.title
         
-        var isFinishedTodo : Bool?
-        if let isFinished = cellData.isFinished {
-            isFinishedTodo = isFinished
+        let selectedEndDate = endDateView.dataPicker.date.toString()
+        let description = descriptionTextView.text
+            
+        if let todoTitle = detailViewTitle.text {
+            title = todoTitle
         }
+        else { title = cellData.title }
+        
+        let requestBody = RequestDTO(
+            title: title ,
+            description: description ?? "",
+            endDate: selectedEndDate
+        )
+        
+        todoManager.todoDataSource[indexNumber].title = title
+        todoManager.todoDataSource[indexNumber].description = description
+        todoManager.todoDataSource[indexNumber].endDate = selectedEndDate.toDate()
 
-        if let descriptionTodo = cellData.description {
-            description = descriptionTodo
-        }
-        
         Task {
-            TodoAPI.modifyTodo(id: id, title: title, description: description, endDate: selectedEndDate, isFinished: isFinishedTodo ?? false)
+            try await TodoAPI.modifyTodo(id: id, requestBody).performRequest(with: requestBody)
         }
-        
         configureDatePicker()
+        
+        navigationController?.popViewController(animated: false)
     }
     
     private func configureDatePicker() {
@@ -95,21 +122,24 @@ class DetailViewController : UIViewController {
     }
     
     private func setLayout() {
-        [detailViewListName,
+        [detailViewTitle,
          dateConfigureLabel,
          endDateView,
+         descriptionLabel,
+         descriptionTextView,
          saveButton].forEach {
             view.addSubview($0)
         }
         
-        detailViewListName.snp.makeConstraints {
+        detailViewTitle.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).offset(30)
             $0.leading.equalTo(view.safeAreaLayoutGuide).offset(40)
             $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-40)
+            $0.height.equalTo(50)
         }
         
         dateConfigureLabel.snp.makeConstraints {
-            $0.top.equalTo(detailViewListName.snp.bottom).offset(50)
+            $0.top.equalTo(detailViewTitle.snp.bottom).offset(50)
             $0.leading.equalTo(view.safeAreaLayoutGuide).offset(50)
         }
         
@@ -119,10 +149,25 @@ class DetailViewController : UIViewController {
             $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-20)
         }
         
-        saveButton.snp.makeConstraints {
+        descriptionLabel.snp.makeConstraints {
             $0.top.equalTo(endDateView.snp.bottom).offset(40)
+            $0.leading.equalTo(view.safeAreaLayoutGuide).offset(30)
+            $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-30)
+        }
+        
+        descriptionTextView.snp.makeConstraints {
+            $0.top.equalTo(descriptionLabel.snp.bottom).offset(20)
+            $0.leading.equalTo(view.safeAreaLayoutGuide).offset(30)
+            $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-30)
+            $0.height.equalTo(150)
+        }
+        
+        saveButton.snp.makeConstraints {
+            $0.top.equalTo(descriptionTextView.snp.bottom).offset(40)
             $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-50)
             $0.width.equalTo(60)
         }
     }
 }
+
+

@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class SettingViewController: UIViewController {
+final class SettingViewController: UIViewController {
     var setting : [String] = ["Support","About","Version"]
     
     override func viewDidLoad() {

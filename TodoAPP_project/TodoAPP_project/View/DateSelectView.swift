@@ -21,7 +21,7 @@ class DateSelectView : UIView {
 
     let dateLabel : UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 20, weight: .medium)
+        label.font = UIFont.systemFont(ofSize: 18, weight: .light)
         
         return label
     }()
