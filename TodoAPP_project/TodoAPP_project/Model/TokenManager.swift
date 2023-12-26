@@ -37,7 +37,7 @@ import Foundation
 class TokenManager {
     static let shared = TokenManager()
     
-    var token : Token?
+    var token = Token.init(accessToken: "")
     
     private init() {}
 }

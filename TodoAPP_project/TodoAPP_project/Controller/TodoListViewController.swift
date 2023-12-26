@@ -23,7 +23,7 @@ final class TodoListViewController: UIViewController {
                 
         Task {
             do {
-                try await TodoAPI.fetchTodo.performRequest()
+                try await TodoAPI.fetchAllTodo.performRequest()
                             
                 self.tableView.reloadData()
             }
@@ -93,7 +93,7 @@ final class TodoListViewController: UIViewController {
 // MARK: - UITableView extension
 extension TodoListViewController : UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let todoData = todoManager.todoDataSource[indexPath.row]
+        let todoData = todoManager.todoAllDataSource[indexPath.row]
 
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: TodoTableViewCell.identifier,
@@ -115,42 +115,37 @@ extension TodoListViewController : UITableViewDataSource, UITableViewDelegate {
         if let successOrNot = successOrNot {
             if successOrNot {
                 cell.complete()
-                Task {
-                    try await TodoAPI.modifyTodoSuccess(id: id).performRequest()
-                }
             }
             else {
                 cell.unComplete()
-                Task {
-                    try await TodoAPI.modifyTodoSuccess(id: id).performRequest()
-                }
             }
         }
         return cell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return todoManager.todoDataSource.count
+        return todoManager.todoAllDataSource.count
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let todoData = todoManager.todoDataSource[indexPath.row]
+        let todoData = todoManager.todoAllDataSource[indexPath.row]
 
         let detailVC = DetailViewController()
-        detailVC.detailViewTitle.text = todoData.title
+//        detailVC.detailViewTitle.text = todoData.title
         detailVC.indexNumber = indexPath.row
-        detailVC.descriptionTextView.text = todoData.description
-        
+        detailVC.id = todoData.id
+//        detailVC.descriptionTextView.text = todoData.description
+//        print(todoData.description)
         self.navigationController?.pushViewController(detailVC, animated: true)
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            let id = todoManager.todoDataSource[indexPath.row].id
+            let id = todoManager.todoAllDataSource[indexPath.row].id
             Task {
                 try await TodoAPI.deleteTodo(id: id).performRequest()
             }
-            todoManager.todoDataSource.remove(at: indexPath.row)
+            todoManager.todoAllDataSource.remove(at: indexPath.row)
             
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
@@ -180,7 +175,7 @@ extension TodoListViewController : ButtonTappedDelegate {
     func tapFinishButton(forCell cell: TodoTableViewCell) {
         guard let indexPath = tableView.indexPath(for: cell) else { return }
                 
-        let cellData = todoManager.todoDataSource[indexPath.row]
+        let cellData = todoManager.todoAllDataSource[indexPath.row]
         let id = cellData.id
         
         if let successOrNot = cellData.isFinished {
@@ -188,7 +183,7 @@ extension TodoListViewController : ButtonTappedDelegate {
                 print(id,successOrNot)
 
                 cell.complete()
-                todoManager.todoDataSource[indexPath.row].isFinished = true
+                todoManager.todoAllDataSource[indexPath.row].isFinished = true
                 
                 Task{
                     try await TodoAPI.modifyTodoSuccess(id: id).performRequest()
@@ -199,7 +194,7 @@ extension TodoListViewController : ButtonTappedDelegate {
                 print(id,successOrNot)
 
                 cell.unComplete()
-                todoManager.todoDataSource[indexPath.row].isFinished = false
+                todoManager.todoAllDataSource[indexPath.row].isFinished = false
                 Task{
                     try await TodoAPI.modifyTodoSuccess(id: id).performRequest()
                 }
@@ -209,14 +204,14 @@ extension TodoListViewController : ButtonTappedDelegate {
     
     func tapDeleteButton(forCell cell: TodoTableViewCell) {
         if let indexPath = tableView.indexPath(for: cell),
-           indexPath.section < todoManager.todoDataSource.count {
-            let id = todoManager.todoDataSource[indexPath.row].id
+           indexPath.section < todoManager.todoAllDataSource.count {
+            let id = todoManager.todoAllDataSource[indexPath.row].id
             print(id)
             Task{
                 try await TodoAPI.deleteTodo(id: id).performRequest()
             }
 
-            todoManager.todoDataSource.remove(at: indexPath.row)
+            todoManager.todoAllDataSource.remove(at: indexPath.row)
                 
             tableView.deleteRows(at: [indexPath], with: .fade)
                 
@@ -244,7 +239,7 @@ extension TodoListViewController : PlusListButtonDelegate {
 
             Task{
                 try await TodoAPI.createTodo(requestBody).performRequest(with: requestBody)
-                try await TodoAPI.fetchTodo.performRequest()
+                try await TodoAPI.fetchAllTodo.performRequest()
                 self.tableView.reloadData()
             }
             

@@ -12,6 +12,7 @@ final class DetailViewController : UIViewController {
     private let todoManager = TodoManager.shared
     
     var indexNumber = 0
+    var id = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,7 +22,22 @@ final class DetailViewController : UIViewController {
         self.navigationController?.navigationBar.tintColor = .darkGreen
 
         setLayout()
-        configureDatePicker()
+//        configureDatePicker()
+        Task {
+            do {
+                try await TodoAPI.fetchTodo(id: id).performRequest()
+                DispatchQueue.main.async {
+                    self.detailViewTitle.text = self.todoManager.todoDataSource?.title
+                    self.descriptionTextView.text = self.todoManager.todoDataSource?.description
+                    if let end = self.todoManager.todoDataSource?.endDate {
+                        self.endDateView.dataPicker.date = end
+                    }
+                }
+            }
+            catch{
+                print("error: \(error)")
+            }
+        }
     }
         
     var detailViewTitle : UITextField = {
@@ -65,7 +81,8 @@ final class DetailViewController : UIViewController {
         textView.layer.cornerRadius = 15
         textView.layer.borderColor = UIColor.lightGray.cgColor
         textView.layer.borderWidth = 1
-        textView.font = UIFont.systemFont(ofSize: 15, weight: .light)
+        textView.font = UIFont.systemFont(ofSize: 17, weight: .light)
+        
         
         return textView
     }()
@@ -84,7 +101,7 @@ final class DetailViewController : UIViewController {
     }()
     
     @objc func tabSaveButton(_ :UIButton) {
-        let cellData = todoManager.todoDataSource[indexNumber]
+        let cellData = todoManager.todoAllDataSource[indexNumber]
         let id = cellData.id
         var title = cellData.title
         
@@ -102,9 +119,9 @@ final class DetailViewController : UIViewController {
             endDate: selectedEndDate
         )
         
-        todoManager.todoDataSource[indexNumber].title = title
-        todoManager.todoDataSource[indexNumber].description = description
-        todoManager.todoDataSource[indexNumber].endDate = selectedEndDate.toDate()
+        todoManager.todoAllDataSource[indexNumber].title = title
+        todoManager.todoAllDataSource[indexNumber].description = description
+        todoManager.todoAllDataSource[indexNumber].endDate = selectedEndDate.toDate()
 
         Task {
             try await TodoAPI.modifyTodo(id: id, requestBody).performRequest(with: requestBody)
@@ -115,7 +132,7 @@ final class DetailViewController : UIViewController {
     }
     
     private func configureDatePicker() {
-        if let endDate = todoManager.todoDataSource[indexNumber].endDate {
+        if let endDate = todoManager.todoAllDataSource[indexNumber].endDate {
             endDateView.dataPicker.date = endDate
             print(endDate)
         }

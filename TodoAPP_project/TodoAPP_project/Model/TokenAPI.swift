@@ -67,7 +67,7 @@ enum TokenAPI {
 //                let loginToken = try JSONDecoder().decode(Token.self, from: data)
                 let loginToken = String(decoding: data, as: UTF8.self)
                 print(loginToken)
-                TokenManager.shared.token?.accessToken = loginToken
+                TokenManager.shared.token.accessToken = loginToken
                 return true
             }
             else {
@@ -76,7 +76,7 @@ enum TokenAPI {
                 return false
             }
         }
-        else if (400..<500).contains(httpResponse.statusCode) {
+        else if (400..<600).contains(httpResponse.statusCode) {
             let dataContent = try JSONDecoder().decode(ErrorStatus.self, from: data)
             print("Response Data: \(dataContent.msg)")
             print("error: \(httpResponse.statusCode)")
