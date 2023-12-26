@@ -37,7 +37,7 @@ import Foundation
 class TokenManager {
     static let shared = TokenManager()
     
-    var token : TokenModel?
+    var token : Token?
     
     private init() {}
 }

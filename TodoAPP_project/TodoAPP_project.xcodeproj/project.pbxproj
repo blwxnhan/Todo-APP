@@ -8,9 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		290771FB2B37FC300007DAE8 /* ErrorStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290771FA2B37FC300007DAE8 /* ErrorStatus.swift */; };
-		290771FF2B3823810007DAE8 /* AuthenticationAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290771FE2B3823810007DAE8 /* AuthenticationAPI.swift */; };
+		290771FF2B3823810007DAE8 /* TokenAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290771FE2B3823810007DAE8 /* TokenAPI.swift */; };
 		290772012B3825250007DAE8 /* TokenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290772002B3825250007DAE8 /* TokenManager.swift */; };
-		290772032B3825970007DAE8 /* TokenModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290772022B3825970007DAE8 /* TokenModel.swift */; };
+		290772032B3825970007DAE8 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290772022B3825970007DAE8 /* Token.swift */; };
 		290772052B384A780007DAE8 /* Member.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290772042B384A780007DAE8 /* Member.swift */; };
 		2912F9AF2B1326B4003F3A90 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2912F9AE2B1326B4003F3A90 /* AppDelegate.swift */; };
 		2912F9B12B1326B4003F3A90 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2912F9B02B1326B4003F3A90 /* SceneDelegate.swift */; };
@@ -40,9 +40,9 @@
 
 /* Begin PBXFileReference section */
 		290771FA2B37FC300007DAE8 /* ErrorStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorStatus.swift; sourceTree = "<group>"; };
-		290771FE2B3823810007DAE8 /* AuthenticationAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationAPI.swift; sourceTree = "<group>"; };
+		290771FE2B3823810007DAE8 /* TokenAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenAPI.swift; sourceTree = "<group>"; };
 		290772002B3825250007DAE8 /* TokenManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenManager.swift; sourceTree = "<group>"; };
-		290772022B3825970007DAE8 /* TokenModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenModel.swift; sourceTree = "<group>"; };
+		290772022B3825970007DAE8 /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
 		290772042B384A780007DAE8 /* Member.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Member.swift; sourceTree = "<group>"; };
 		2912F9AB2B1326B4003F3A90 /* TodoAPP_project.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TodoAPP_project.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2912F9AE2B1326B4003F3A90 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -138,9 +138,9 @@
 				299311582B33E7C400B3E93C /* TodoManager.swift */,
 				299311562B33CCF500B3E93C /* RequestDTO.swift */,
 				290771FA2B37FC300007DAE8 /* ErrorStatus.swift */,
-				290771FE2B3823810007DAE8 /* AuthenticationAPI.swift */,
+				290771FE2B3823810007DAE8 /* TokenAPI.swift */,
 				290772002B3825250007DAE8 /* TokenManager.swift */,
-				290772022B3825970007DAE8 /* TokenModel.swift */,
+				290772022B3825970007DAE8 /* Token.swift */,
 				290772042B384A780007DAE8 /* Member.swift */,
 			);
 			path = Model;
@@ -241,7 +241,7 @@
 				2912F9C62B13271E003F3A90 /* TabBarController.swift in Sources */,
 				290772052B384A780007DAE8 /* Member.swift in Sources */,
 				2912F9D92B132987003F3A90 /* TodoTableViewCell.swift in Sources */,
-				290771FF2B3823810007DAE8 /* AuthenticationAPI.swift in Sources */,
+				290771FF2B3823810007DAE8 /* TokenAPI.swift in Sources */,
 				2912F9AF2B1326B4003F3A90 /* AppDelegate.swift in Sources */,
 				2912F9D72B13290A003F3A90 /* Extension.swift in Sources */,
 				2912F9D12B1327F3003F3A90 /* Todo.swift in Sources */,
@@ -260,7 +260,7 @@
 				29FE09E72B19B51E00BFE283 /* JoinViewController.swift in Sources */,
 				2912F9CD2B132797003F3A90 /* SettingViewController.swift in Sources */,
 				29F6AF042B18376900CEAC36 /* InputView.swift in Sources */,
-				290772032B3825970007DAE8 /* TokenModel.swift in Sources */,
+				290772032B3825970007DAE8 /* Token.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum AuthenticationAPI {
+enum TokenAPI {
     static let authenticationURL = "http://hyeseong.na2ru2.me/api/members"
     
     case login (_ id: String,_ password: String)
@@ -31,7 +31,7 @@ enum AuthenticationAPI {
     }
     
     var url: URL {
-        let url = AuthenticationAPI.authenticationURL + path
+        let url = TokenAPI.authenticationURL + path
         return URL(string: url.stringByAddingPercentEncodingForRFC3986() ?? "")!
     }
     
@@ -63,7 +63,7 @@ enum AuthenticationAPI {
         if (200..<300).contains(httpResponse.statusCode) {
             // Handle success (200번대)
             if case .login = self {
-                let loginToken = try JSONDecoder().decode(TokenModel.self, from: data)
+                let loginToken = try JSONDecoder().decode(Token.self, from: data)
 //                TokenUserDefaults.token.tokens = loginToken
                 print(loginToken)
                 
