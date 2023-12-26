@@ -18,18 +18,18 @@ final class JoinViewController : UIViewController {
         return label
     }()
     
-    let joinEmail : InputView = {
-        let inputView = InputView()
-        inputView.inputLabel.text = "email"
-        inputView.inputTextField.placeholder = "email을 입력해주세요."
-        
-        return inputView
-    }()
-    
     let joinNickname : InputView = {
         let inputView = InputView()
         inputView.inputLabel.text = "nickname"
         inputView.inputTextField.placeholder = "닉네임을 입력해주세요."
+        
+        return inputView
+    }()
+    
+    let joinEmail : InputView = {
+        let inputView = InputView()
+        inputView.inputLabel.text = "email"
+        inputView.inputTextField.placeholder = "email을 입력해주세요."
         
         return inputView
     }()
@@ -160,30 +160,30 @@ final class JoinViewController : UIViewController {
             $0.leading.equalTo(view.safeAreaLayoutGuide).offset(40)
         }
         
-        joinEmail.snp.makeConstraints {
+        joinNickname.snp.makeConstraints {
             $0.top.equalTo(joinLabel.snp.bottom).offset(50)
             $0.leading.equalTo(view.safeAreaLayoutGuide).offset(40)
         }
         
-        joinNickname.snp.makeConstraints {
-            $0.top.equalTo(joinEmail.snp.bottom).offset(30)
-            $0.leading.equalTo(view.safeAreaLayoutGuide).offset(40)
-        }
-        
-        joinPassword.snp.makeConstraints {
+        joinEmail.snp.makeConstraints {
             $0.top.equalTo(joinNickname.snp.bottom).offset(30)
             $0.leading.equalTo(view.safeAreaLayoutGuide).offset(40)
         }
         
+        joinPassword.snp.makeConstraints {
+            $0.top.equalTo(joinEmail.snp.bottom).offset(30)
+            $0.leading.equalTo(view.safeAreaLayoutGuide).offset(40)
+        }
+        
         invaildInputLabel.snp.makeConstraints {
-            $0.top.equalTo(joinPassword.snp.bottom).offset(30)
+            $0.top.equalTo(joinPassword.snp.bottom).offset(20)
             $0.leading.equalTo(view.safeAreaLayoutGuide).offset(40)
             $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-40)
             $0.height.equalTo(40)
         }
         
         buttonStackView.snp.makeConstraints {
-            $0.top.equalTo(invaildInputLabel.snp.bottom).offset(30)
+            $0.top.equalTo(invaildInputLabel.snp.bottom).offset(15)
             $0.leading.equalTo(view.safeAreaLayoutGuide).offset(40)
             $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-40)
             $0.height.equalTo(40)

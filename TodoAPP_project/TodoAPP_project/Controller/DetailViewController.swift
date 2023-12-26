@@ -12,7 +12,6 @@ final class DetailViewController : UIViewController {
     private let todoManager = TodoManager.shared
     
     var indexNumber = 0
-    var id = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,21 +22,6 @@ final class DetailViewController : UIViewController {
 
         setLayout()
         configureDatePicker()
-//        Task {
-//            do {
-//                try await TodoAPI.fetchTodo(id: id).performRequest()
-//                DispatchQueue.main.async {
-//                    self.detailViewTitle.text = self.todoManager.todoDataSource?.title
-//                    self.descriptionTextView.text = self.todoManager.todoDataSource?.description
-//                    if let end = self.todoManager.todoDataSource?.endDate {
-//                        self.endDateView.dataPicker.date = end
-//                    }
-//                }
-//            }
-//            catch{
-//                print("error: \(error)")
-//            }
-//        }
     }
         
     var detailViewTitle : UITextField = {
@@ -167,14 +151,14 @@ final class DetailViewController : UIViewController {
         
         descriptionLabel.snp.makeConstraints {
             $0.top.equalTo(endDateView.snp.bottom).offset(40)
-            $0.leading.equalTo(view.safeAreaLayoutGuide).offset(30)
-            $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-30)
+            $0.leading.equalTo(view.safeAreaLayoutGuide).offset(40)
+            $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-40)
         }
         
         descriptionTextView.snp.makeConstraints {
             $0.top.equalTo(descriptionLabel.snp.bottom).offset(20)
-            $0.leading.equalTo(view.safeAreaLayoutGuide).offset(30)
-            $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-30)
+            $0.leading.equalTo(view.safeAreaLayoutGuide).offset(40)
+            $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-40)
             $0.height.equalTo(150)
         }
         

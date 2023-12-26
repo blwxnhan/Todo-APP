@@ -132,9 +132,7 @@ extension TodoListViewController : UITableViewDataSource, UITableViewDelegate {
         let detailVC = DetailViewController()
         detailVC.detailViewTitle.text = todoData.title
         detailVC.indexNumber = indexPath.row
-        detailVC.id = todoData.id
         detailVC.descriptionTextView.text = todoData.description
-        print(todoData.description)
         self.navigationController?.pushViewController(detailVC, animated: true)
     }
     
