@@ -54,6 +54,7 @@ enum TokenAPI {
 
         // 실제로 request를 보내서 network를 하는 부분
         let (data, response) = try await URLSession.shared.data(for: request)
+        print(data)
 
         guard let httpResponse = response as? HTTPURLResponse else {
             throw FetchError.invalidStatus
@@ -63,25 +64,24 @@ enum TokenAPI {
         if (200..<300).contains(httpResponse.statusCode) {
             // Handle success (200번대)
             if case .login = self {
-                let loginToken = try JSONDecoder().decode(Token.self, from: data)
-//                TokenUserDefaults.token.tokens = loginToken
+//                let loginToken = try JSONDecoder().decode(Token.self, from: data)
+                let loginToken = String(decoding: data, as: UTF8.self)
                 print(loginToken)
-                
-//                let dataContent = try JSONDecoder().decode(ErrorStatus.self, from: data)
-//                print("Response Data: \(dataContent.msg)")
+                TokenManager.shared.token?.accessToken = loginToken
+                return true
             }
             else {
                 let dataContent = try JSONDecoder().decode(ErrorStatus.self, from: data)
                 print("Response Data: \(dataContent.msg)")
+                return false
             }
         }
         else if (400..<500).contains(httpResponse.statusCode) {
-            // Handle client error (4xx)
             let dataContent = try JSONDecoder().decode(ErrorStatus.self, from: data)
             print("Response Data: \(dataContent.msg)")
             print("error: \(httpResponse.statusCode)")
             return false
         }
-        return true
+        return false
     }
 }

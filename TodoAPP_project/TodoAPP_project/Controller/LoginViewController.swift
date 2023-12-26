@@ -107,16 +107,16 @@ final class LoginViewController : UIViewController {
         
         else {
             Task {
-                loginSuccess = try await AuthenticationAPI.login(todoId, todoPassword).performRequest()
-            }
-            
-            if loginSuccess == true {
-                let tabBarVC = TabBarController()
-                tabBarVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
-                self.present(tabBarVC, animated: false, completion: nil)
-            }
-            else {
-                invaildInputLabel.text = "이메일과 비밀번호를 다시 입력해주세요"
+                loginSuccess = try await TokenAPI.login(todoId, todoPassword).performRequest()
+                
+                if loginSuccess == true {
+                    let tabBarVC = TabBarController()
+                    tabBarVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
+                    self.present(tabBarVC, animated: false, completion: nil)
+                }
+                else {
+                    invaildInputLabel.text = "이메일과 비밀번호를 다시 입력해주세요"
+                }
             }
         }
     }

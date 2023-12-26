@@ -59,7 +59,7 @@ enum TodoAPI {
         var request = URLRequest(url: url)
         request.httpMethod = method
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.addValue(TokenUserDefaults.token.tokens?.accessToken ?? "",
+        request.addValue(TokenManager.shared.token?.accessToken ?? "",
                          forHTTPHeaderField: "Authentication")
         return request
     }

@@ -129,7 +129,7 @@ final class JoinViewController : UIViewController {
             )
             
             Task {
-                joinSuccess = try await AuthenticationAPI.join(requestBody).performRequest()
+                joinSuccess = try await TokenAPI.join(requestBody).performRequest()
             }
             
             if joinSuccess == true {
