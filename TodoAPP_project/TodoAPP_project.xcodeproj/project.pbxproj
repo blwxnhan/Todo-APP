@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		290771FB2B37FC300007DAE8 /* ErrorStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290771FA2B37FC300007DAE8 /* ErrorStatus.swift */; };
+		290771FB2B37FC300007DAE8 /* Status.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290771FA2B37FC300007DAE8 /* Status.swift */; };
 		290771FF2B3823810007DAE8 /* TokenAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290771FE2B3823810007DAE8 /* TokenAPI.swift */; };
 		290772012B3825250007DAE8 /* TokenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290772002B3825250007DAE8 /* TokenManager.swift */; };
 		290772032B3825970007DAE8 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290772022B3825970007DAE8 /* Token.swift */; };
@@ -40,7 +40,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		290771FA2B37FC300007DAE8 /* ErrorStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorStatus.swift; sourceTree = "<group>"; };
+		290771FA2B37FC300007DAE8 /* Status.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Status.swift; sourceTree = "<group>"; };
 		290771FE2B3823810007DAE8 /* TokenAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenAPI.swift; sourceTree = "<group>"; };
 		290772002B3825250007DAE8 /* TokenManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenManager.swift; sourceTree = "<group>"; };
 		290772022B3825970007DAE8 /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
@@ -139,7 +139,7 @@
 				299311542B32DACF00B3E93C /* TodoAPI.swift */,
 				299311582B33E7C400B3E93C /* TodoManager.swift */,
 				299311562B33CCF500B3E93C /* RequestDTO.swift */,
-				290771FA2B37FC300007DAE8 /* ErrorStatus.swift */,
+				290771FA2B37FC300007DAE8 /* Status.swift */,
 				290771FE2B3823810007DAE8 /* TokenAPI.swift */,
 				290772002B3825250007DAE8 /* TokenManager.swift */,
 				290772022B3825970007DAE8 /* Token.swift */,
@@ -240,7 +240,7 @@
 			files = (
 				2912F9D32B1328D3003F3A90 /* RegisterView.swift in Sources */,
 				290772012B3825250007DAE8 /* TokenManager.swift in Sources */,
-				290771FB2B37FC300007DAE8 /* ErrorStatus.swift in Sources */,
+				290771FB2B37FC300007DAE8 /* Status.swift in Sources */,
 				2912F9C62B13271E003F3A90 /* TabBarController.swift in Sources */,
 				290772052B384A780007DAE8 /* Member.swift in Sources */,
 				2912F9D92B132987003F3A90 /* TodoTableViewCell.swift in Sources */,

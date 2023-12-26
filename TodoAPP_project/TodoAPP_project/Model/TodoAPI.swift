@@ -90,27 +90,27 @@ enum TodoAPI {
         if (200..<300).contains(httpResponse.statusCode) {
             // Handle success (200번대)
             if case .fetchAllTodo = self {
-                let todoList = try JSONDecoder().decode([RequestDTO].self, from: data)
+                let todoList = try JSONDecoder().decode([Todo].self, from: data)
                 
                 TodoManager.shared.todoAllDataSource = todoList
                 
 //                print("Todo List: \(TodoManager.shared.todoAllDataSource)")
             }
             else if case .fetchTodo = self {
-                let dataContent = try JSONDecoder().decode(ErrorStatus.self, from: data)
+                let dataContent = try JSONDecoder().decode(Status.self, from: data)
                 print("Response Data: \(dataContent.msg)")
                 
                 let todoList = try JSONDecoder().decode(Todo.self, from: data)
                 TodoManager.shared.todoDataSource = todoList
             }
             else {
-                let dataContent = try JSONDecoder().decode(ErrorStatus.self, from: data)
+                let dataContent = try JSONDecoder().decode(Status.self, from: data)
                 print("Response Data: \(dataContent.msg)")
             }
         }
         else if (400..<600).contains(httpResponse.statusCode) {
             // Handle client error (4xx)
-            let dataContent = try JSONDecoder().decode(ErrorStatus.self, from: data)
+            let dataContent = try JSONDecoder().decode(Status.self, from: data)
             print("Response Data: \(dataContent.msg)")
             print("error: \(httpResponse.statusCode)")
         }

@@ -22,22 +22,22 @@ final class DetailViewController : UIViewController {
         self.navigationController?.navigationBar.tintColor = .darkGreen
 
         setLayout()
-//        configureDatePicker()
-        Task {
-            do {
-                try await TodoAPI.fetchTodo(id: id).performRequest()
-                DispatchQueue.main.async {
-                    self.detailViewTitle.text = self.todoManager.todoDataSource?.title
-                    self.descriptionTextView.text = self.todoManager.todoDataSource?.description
-                    if let end = self.todoManager.todoDataSource?.endDate {
-                        self.endDateView.dataPicker.date = end
-                    }
-                }
-            }
-            catch{
-                print("error: \(error)")
-            }
-        }
+        configureDatePicker()
+//        Task {
+//            do {
+//                try await TodoAPI.fetchTodo(id: id).performRequest()
+//                DispatchQueue.main.async {
+//                    self.detailViewTitle.text = self.todoManager.todoDataSource?.title
+//                    self.descriptionTextView.text = self.todoManager.todoDataSource?.description
+//                    if let end = self.todoManager.todoDataSource?.endDate {
+//                        self.endDateView.dataPicker.date = end
+//                    }
+//                }
+//            }
+//            catch{
+//                print("error: \(error)")
+//            }
+//        }
     }
         
     var detailViewTitle : UITextField = {
@@ -121,7 +121,7 @@ final class DetailViewController : UIViewController {
         
         todoManager.todoAllDataSource[indexNumber].title = title
         todoManager.todoAllDataSource[indexNumber].description = description
-        todoManager.todoAllDataSource[indexNumber].endDate = selectedEndDate.toDate()
+        todoManager.todoAllDataSource[indexNumber].endDate = selectedEndDate
 
         Task {
             try await TodoAPI.modifyTodo(id: id, requestBody).performRequest(with: requestBody)
@@ -132,10 +132,9 @@ final class DetailViewController : UIViewController {
     }
     
     private func configureDatePicker() {
-        if let endDate = todoManager.todoAllDataSource[indexNumber].endDate {
-            endDateView.dataPicker.date = endDate
-            print(endDate)
-        }
+        let endDate = todoManager.todoAllDataSource[indexNumber].endDate
+        endDateView.dataPicker.date = endDate?.toDate() ?? Date.now
+        print(endDate)
     }
     
     private func setLayout() {

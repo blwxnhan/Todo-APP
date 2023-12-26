@@ -129,14 +129,14 @@ final class JoinViewController : UIViewController {
             )
             
             Task {
-                joinSuccess = try await TokenAPI.join(requestBody).performRequest()
-            }
-            
-            if joinSuccess == true {
-                self.dismiss(animated: false)
-            }
-            else {
-                invaildInputLabel.text = "이메일과 비밀번호를 다시 입력해주세요"
+                joinSuccess = try await TokenAPI.join(requestBody).performRequest(with: requestBody)
+                
+                if joinSuccess == true {
+                    self.dismiss(animated: false)
+                }
+                else {
+                    invaildInputLabel.text = "이메일과 비밀번호를 다시 입력해주세요"
+                }
             }
         }
     }

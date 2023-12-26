@@ -11,8 +11,8 @@ import Foundation
 struct Todo : Codable {
     let id : Int
     var title : String
-    var description : String
-    var endDate : Date
+    var description : String?
+    var endDate : String?
     var isFinished : Bool
 }
 

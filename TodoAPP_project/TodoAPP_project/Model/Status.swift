@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ErrorStatus : Decodable{
+struct Status : Decodable{
     let data: Int
     let msg: String
 }

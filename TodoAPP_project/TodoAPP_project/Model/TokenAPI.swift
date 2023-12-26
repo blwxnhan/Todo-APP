@@ -64,20 +64,25 @@ enum TokenAPI {
         if (200..<300).contains(httpResponse.statusCode) {
             // Handle success (200번대)
             if case .login = self {
-//                let loginToken = try JSONDecoder().decode(Token.self, from: data)
                 let loginToken = String(decoding: data, as: UTF8.self)
                 print(loginToken)
                 TokenManager.shared.token.accessToken = loginToken
                 return true
             }
+            else if case .join = self {
+                let dataContent = try JSONDecoder().decode(Status.self, from: data)
+                print("Response Data: \(dataContent.msg)")
+                return true
+            }
+            
             else {
-                let dataContent = try JSONDecoder().decode(ErrorStatus.self, from: data)
+                let dataContent = try JSONDecoder().decode(Status.self, from: data)
                 print("Response Data: \(dataContent.msg)")
                 return false
             }
         }
         else if (400..<600).contains(httpResponse.statusCode) {
-            let dataContent = try JSONDecoder().decode(ErrorStatus.self, from: data)
+            let dataContent = try JSONDecoder().decode(Status.self, from: data)
             print("Response Data: \(dataContent.msg)")
             print("error: \(httpResponse.statusCode)")
             return false

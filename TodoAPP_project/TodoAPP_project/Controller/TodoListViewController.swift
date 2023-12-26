@@ -112,14 +112,13 @@ extension TodoListViewController : UITableViewDataSource, UITableViewDelegate {
         let id = todoData.id
         let successOrNot = todoData.isFinished
         
-        if let successOrNot = successOrNot {
-            if successOrNot {
-                cell.complete()
-            }
-            else {
-                cell.unComplete()
-            }
+        if successOrNot {
+            cell.complete()
         }
+        else {
+            cell.unComplete()
+        }
+        
         return cell
     }
     
@@ -131,11 +130,11 @@ extension TodoListViewController : UITableViewDataSource, UITableViewDelegate {
         let todoData = todoManager.todoAllDataSource[indexPath.row]
 
         let detailVC = DetailViewController()
-//        detailVC.detailViewTitle.text = todoData.title
+        detailVC.detailViewTitle.text = todoData.title
         detailVC.indexNumber = indexPath.row
         detailVC.id = todoData.id
-//        detailVC.descriptionTextView.text = todoData.description
-//        print(todoData.description)
+        detailVC.descriptionTextView.text = todoData.description
+        print(todoData.description)
         self.navigationController?.pushViewController(detailVC, animated: true)
     }
     
@@ -178,28 +177,30 @@ extension TodoListViewController : ButtonTappedDelegate {
         let cellData = todoManager.todoAllDataSource[indexPath.row]
         let id = cellData.id
         
-        if let successOrNot = cellData.isFinished {
-            if !successOrNot {
-                print(id,successOrNot)
+        let successOrNot = cellData.isFinished
+        
+        if !successOrNot {
+            print(id,successOrNot)
 
-                cell.complete()
-                todoManager.todoAllDataSource[indexPath.row].isFinished = true
-                
-                Task{
-                    try await TodoAPI.modifyTodoSuccess(id: id).performRequest()
-                }
-            }
+            cell.complete()
+            todoManager.todoAllDataSource[indexPath.row].isFinished = true
             
-            else {
-                print(id,successOrNot)
-
-                cell.unComplete()
-                todoManager.todoAllDataSource[indexPath.row].isFinished = false
-                Task{
-                    try await TodoAPI.modifyTodoSuccess(id: id).performRequest()
-                }
+            Task{
+                try await TodoAPI.modifyTodoSuccess(id: id).performRequest()
             }
         }
+        
+        else {
+            print(id,successOrNot)
+
+            cell.unComplete()
+            todoManager.todoAllDataSource[indexPath.row].isFinished = false
+            
+            Task{
+                try await TodoAPI.modifyTodoSuccess(id: id).performRequest()
+            }
+        }
+        
     }
     
     func tapDeleteButton(forCell cell: TodoTableViewCell) {
