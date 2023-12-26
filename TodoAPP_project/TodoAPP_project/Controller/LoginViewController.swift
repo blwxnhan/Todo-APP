@@ -13,6 +13,8 @@ final class LoginViewController : UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .white
+        
+        self.hideKeyboardWhenTappedAround()
         setLayout()
     }
     

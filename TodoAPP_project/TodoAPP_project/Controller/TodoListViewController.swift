@@ -20,6 +20,8 @@ final class TodoListViewController: UIViewController {
         setLayout()
         configureTableView()
         configureScrollViewInset()
+        
+        self.hideKeyboardWhenTappedAround()
                 
         Task {
             do {
@@ -109,7 +111,6 @@ extension TodoListViewController : UITableViewDataSource, UITableViewDelegate {
         cell.delegate = self
         cell.selectionStyle = .none
         
-        let id = todoData.id
         let successOrNot = todoData.isFinished
         
         if successOrNot {

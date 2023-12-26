@@ -19,6 +19,8 @@ final class DetailViewController : UIViewController {
         view.backgroundColor = .white
         
         self.navigationController?.navigationBar.tintColor = .darkGreen
+        
+        self.hideKeyboardWhenTappedAround()
 
         setLayout()
         configureDatePicker()
@@ -170,4 +172,4 @@ final class DetailViewController : UIViewController {
     }
 }
 
-
+ 

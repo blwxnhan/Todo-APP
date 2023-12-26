@@ -9,6 +9,15 @@ import UIKit
 import SnapKit
 
 final class JoinViewController : UIViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .systemBackground
+        
+        self.hideKeyboardWhenTappedAround()
+        
+        setLayout()
+    }
+    
     private let joinLabel : UILabel = {
         let label = UILabel()
         label.text = "Join"
@@ -86,16 +95,12 @@ final class JoinViewController : UIViewController {
         return button
     }()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = .systemBackground
-        setLayout()
-    }
-    
+    // 로그인 버튼 눌렀을 때 메서드
     @objc private func tabBackLoginButton(_:UIButton) {
         self.dismiss(animated: false)
     }
     
+    // 회원가입 버튼 눌렀을 때 메서드
     @objc private func tabJoinButton(_:UIButton) {
         var joinSuccess = false
         
