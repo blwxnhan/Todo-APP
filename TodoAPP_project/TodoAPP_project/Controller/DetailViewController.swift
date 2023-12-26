@@ -19,6 +19,8 @@ final class DetailViewController : UIViewController {
         view.backgroundColor = .white
         
         self.navigationController?.navigationBar.tintColor = .darkGreen
+        
+        self.hideKeyboardWhenTappedAround()
 
         setLayout()
         configureDatePicker()
@@ -65,7 +67,8 @@ final class DetailViewController : UIViewController {
         textView.layer.cornerRadius = 15
         textView.layer.borderColor = UIColor.lightGray.cgColor
         textView.layer.borderWidth = 1
-        textView.font = UIFont.systemFont(ofSize: 15, weight: .light)
+        textView.font = UIFont.systemFont(ofSize: 17, weight: .light)
+        
         
         return textView
     }()
@@ -83,8 +86,8 @@ final class DetailViewController : UIViewController {
         return button
     }()
     
-    @objc func tabSaveButton(_ :UIButton) {        
-        let cellData = todoManager.todoDataSource[indexNumber]
+    @objc func tabSaveButton(_ :UIButton) {
+        let cellData = todoManager.todoAllDataSource[indexNumber]
         let id = cellData.id
         var title = cellData.title
         
@@ -102,9 +105,9 @@ final class DetailViewController : UIViewController {
             endDate: selectedEndDate
         )
         
-        todoManager.todoDataSource[indexNumber].title = title
-        todoManager.todoDataSource[indexNumber].description = description
-        todoManager.todoDataSource[indexNumber].endDate = selectedEndDate.toDate()
+        todoManager.todoAllDataSource[indexNumber].title = title
+        todoManager.todoAllDataSource[indexNumber].description = description
+        todoManager.todoAllDataSource[indexNumber].endDate = selectedEndDate
 
         Task {
             try await TodoAPI.modifyTodo(id: id, requestBody).performRequest(with: requestBody)
@@ -115,10 +118,9 @@ final class DetailViewController : UIViewController {
     }
     
     private func configureDatePicker() {
-        if let endDate = todoManager.todoDataSource[indexNumber].endDate {
-            endDateView.dataPicker.date = endDate
-            print(endDate)
-        }
+        let endDate = todoManager.todoAllDataSource[indexNumber].endDate
+        endDateView.dataPicker.date = endDate?.toDate() ?? Date.now
+        print(endDate)
     }
     
     private func setLayout() {
@@ -151,14 +153,14 @@ final class DetailViewController : UIViewController {
         
         descriptionLabel.snp.makeConstraints {
             $0.top.equalTo(endDateView.snp.bottom).offset(40)
-            $0.leading.equalTo(view.safeAreaLayoutGuide).offset(30)
-            $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-30)
+            $0.leading.equalTo(view.safeAreaLayoutGuide).offset(40)
+            $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-40)
         }
         
         descriptionTextView.snp.makeConstraints {
             $0.top.equalTo(descriptionLabel.snp.bottom).offset(20)
-            $0.leading.equalTo(view.safeAreaLayoutGuide).offset(30)
-            $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-30)
+            $0.leading.equalTo(view.safeAreaLayoutGuide).offset(40)
+            $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-40)
             $0.height.equalTo(150)
         }
         
@@ -170,4 +172,4 @@ final class DetailViewController : UIViewController {
     }
 }
 
-
+ 

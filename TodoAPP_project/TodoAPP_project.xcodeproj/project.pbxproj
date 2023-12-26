@@ -7,7 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		290771FB2B37FC300007DAE8 /* ErrorStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290771FA2B37FC300007DAE8 /* ErrorStatus.swift */; };
+		290771FB2B37FC300007DAE8 /* Status.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290771FA2B37FC300007DAE8 /* Status.swift */; };
+		290771FF2B3823810007DAE8 /* TokenAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290771FE2B3823810007DAE8 /* TokenAPI.swift */; };
+		290772012B3825250007DAE8 /* TokenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290772002B3825250007DAE8 /* TokenManager.swift */; };
+		290772032B3825970007DAE8 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290772022B3825970007DAE8 /* Token.swift */; };
+		290772052B384A780007DAE8 /* Member.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290772042B384A780007DAE8 /* Member.swift */; };
 		2912F9AF2B1326B4003F3A90 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2912F9AE2B1326B4003F3A90 /* AppDelegate.swift */; };
 		2912F9B12B1326B4003F3A90 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2912F9B02B1326B4003F3A90 /* SceneDelegate.swift */; };
 		2912F9B82B1326B5003F3A90 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2912F9B72B1326B5003F3A90 /* Assets.xcassets */; };
@@ -29,14 +33,17 @@
 		299311552B32DACF00B3E93C /* TodoAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 299311542B32DACF00B3E93C /* TodoAPI.swift */; };
 		299311572B33CCF500B3E93C /* RequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 299311562B33CCF500B3E93C /* RequestDTO.swift */; };
 		299311592B33E7C400B3E93C /* TodoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 299311582B33E7C400B3E93C /* TodoManager.swift */; };
-		2993115B2B33F7E600B3E93C /* ResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2993115A2B33F7E600B3E93C /* ResponseDTO.swift */; };
 		29F6AF022B1834CC00CEAC36 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29F6AF012B1834CC00CEAC36 /* LoginViewController.swift */; };
 		29F6AF042B18376900CEAC36 /* InputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29F6AF032B18376900CEAC36 /* InputView.swift */; };
 		29FE09E72B19B51E00BFE283 /* JoinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29FE09E62B19B51E00BFE283 /* JoinViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		290771FA2B37FC300007DAE8 /* ErrorStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorStatus.swift; sourceTree = "<group>"; };
+		290771FA2B37FC300007DAE8 /* Status.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Status.swift; sourceTree = "<group>"; };
+		290771FE2B3823810007DAE8 /* TokenAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenAPI.swift; sourceTree = "<group>"; };
+		290772002B3825250007DAE8 /* TokenManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenManager.swift; sourceTree = "<group>"; };
+		290772022B3825970007DAE8 /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
+		290772042B384A780007DAE8 /* Member.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Member.swift; sourceTree = "<group>"; };
 		2912F9AB2B1326B4003F3A90 /* TodoAPP_project.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TodoAPP_project.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2912F9AE2B1326B4003F3A90 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2912F9B02B1326B4003F3A90 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -59,7 +66,6 @@
 		299311542B32DACF00B3E93C /* TodoAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoAPI.swift; sourceTree = "<group>"; };
 		299311562B33CCF500B3E93C /* RequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestDTO.swift; sourceTree = "<group>"; };
 		299311582B33E7C400B3E93C /* TodoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoManager.swift; sourceTree = "<group>"; };
-		2993115A2B33F7E600B3E93C /* ResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseDTO.swift; sourceTree = "<group>"; };
 		29F6AF012B1834CC00CEAC36 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		29F6AF032B18376900CEAC36 /* InputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputView.swift; sourceTree = "<group>"; };
 		29FE09E62B19B51E00BFE283 /* JoinViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinViewController.swift; sourceTree = "<group>"; };
@@ -131,8 +137,11 @@
 				299311542B32DACF00B3E93C /* TodoAPI.swift */,
 				299311582B33E7C400B3E93C /* TodoManager.swift */,
 				299311562B33CCF500B3E93C /* RequestDTO.swift */,
-				2993115A2B33F7E600B3E93C /* ResponseDTO.swift */,
-				290771FA2B37FC300007DAE8 /* ErrorStatus.swift */,
+				290771FA2B37FC300007DAE8 /* Status.swift */,
+				290771FE2B3823810007DAE8 /* TokenAPI.swift */,
+				290772002B3825250007DAE8 /* TokenManager.swift */,
+				290772022B3825970007DAE8 /* Token.swift */,
+				290772042B384A780007DAE8 /* Member.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -227,9 +236,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				2912F9D32B1328D3003F3A90 /* RegisterView.swift in Sources */,
-				290771FB2B37FC300007DAE8 /* ErrorStatus.swift in Sources */,
+				290772012B3825250007DAE8 /* TokenManager.swift in Sources */,
+				290771FB2B37FC300007DAE8 /* Status.swift in Sources */,
 				2912F9C62B13271E003F3A90 /* TabBarController.swift in Sources */,
+				290772052B384A780007DAE8 /* Member.swift in Sources */,
 				2912F9D92B132987003F3A90 /* TodoTableViewCell.swift in Sources */,
+				290771FF2B3823810007DAE8 /* TokenAPI.swift in Sources */,
 				2912F9AF2B1326B4003F3A90 /* AppDelegate.swift in Sources */,
 				2912F9D72B13290A003F3A90 /* Extension.swift in Sources */,
 				2912F9D12B1327F3003F3A90 /* Todo.swift in Sources */,
@@ -237,7 +249,6 @@
 				2912F9E12B135F73003F3A90 /* DateSelectView.swift in Sources */,
 				299311572B33CCF500B3E93C /* RequestDTO.swift in Sources */,
 				2912F9D52B1328F0003F3A90 /* SettingTableViewCell.swift in Sources */,
-				2993115B2B33F7E600B3E93C /* ResponseDTO.swift in Sources */,
 				2912F9E32B135F9C003F3A90 /* SectionHeaderView.swift in Sources */,
 				2912F9DB2B1329D2003F3A90 /* NavigationBarTitleView.swift in Sources */,
 				2912F9C82B13274C003F3A90 /* TodoListViewController.swift in Sources */,
@@ -249,6 +260,7 @@
 				29FE09E72B19B51E00BFE283 /* JoinViewController.swift in Sources */,
 				2912F9CD2B132797003F3A90 /* SettingViewController.swift in Sources */,
 				29F6AF042B18376900CEAC36 /* InputView.swift in Sources */,
+				290772032B3825970007DAE8 /* Token.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

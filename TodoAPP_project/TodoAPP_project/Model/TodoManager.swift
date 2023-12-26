@@ -10,9 +10,8 @@ import Foundation
 class TodoManager{
     static let shared = TodoManager()
     
-    var todoDataSource : [Todo] = []
-    
+    var todoAllDataSource : [Todo] = []
+    var todoDataSource : Todo?
+
     private init() {}
-    
-    func invokeAPI() {}
 }

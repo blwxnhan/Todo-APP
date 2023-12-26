@@ -86,3 +86,25 @@ extension Date {
         return dateFormatter.string(from: self)
     }
 }
+
+
+extension String {
+  func stringByAddingPercentEncodingForRFC3986() -> String? {
+    let unreserved = "./?=:&"
+    let allowed = NSMutableCharacterSet.alphanumeric()
+    allowed.addCharacters(in: unreserved)
+    return addingPercentEncoding(withAllowedCharacters: allowed as CharacterSet)
+  }
+}
+
+extension UIViewController {
+    func hideKeyboardWhenTappedAround() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+}
