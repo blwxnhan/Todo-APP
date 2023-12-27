@@ -93,7 +93,7 @@ final class TodoListViewController: UIViewController {
 // MARK: - UITableView extension
 extension TodoListViewController : UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let todoData = todoManager.todoAllDataSource[indexPath.row]
+        let todoData = todoManager.todoTodayDataSource[indexPath.row]
 
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: TodoTableViewCell.identifier,
