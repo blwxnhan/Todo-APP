@@ -11,7 +11,6 @@ class TodoManager{
     static let shared = TodoManager()
     
     var todoAllDataSource : [Todo] = []
-    var todoDataSource : Todo?
 
     private init() {}
 }
