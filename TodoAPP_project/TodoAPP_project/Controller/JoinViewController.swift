@@ -38,7 +38,7 @@ final class JoinViewController : UIViewController {
     let joinEmail : InputView = {
         let inputView = InputView()
         inputView.inputLabel.text = "email"
-        inputView.inputTextField.placeholder = "email을 입력해주세요."
+        inputView.inputTextField.placeholder = "이메일을 입력해주세요."
         
         return inputView
     }()
@@ -46,7 +46,18 @@ final class JoinViewController : UIViewController {
     let joinPassword : InputView = {
         let inputView = InputView()
         inputView.inputLabel.text = "password"
-        inputView.inputTextField.placeholder = "비밀번호를 입력해주새요."
+        inputView.inputTextField.placeholder = "비밀번호를 입력해주세요."
+        inputView.inputTextField.isSecureTextEntry = true
+        inputView.inputTextField.textContentType = .oneTimeCode
+        
+        return inputView
+    }()
+    
+    let joinPasswordConfirm : InputView = {
+        let inputView = InputView()
+        inputView.inputTextField.placeholder = "비밀번호 확인"
+        inputView.inputTextField.isSecureTextEntry = true
+        inputView.inputTextField.textContentType = .oneTimeCode
         
         return inputView
     }()
@@ -126,6 +137,10 @@ final class JoinViewController : UIViewController {
             invaildInputLabel.text = "이메일, 비밀번호, 닉네임을 입력해주세요"
         }
         
+        else if ((joinPassword.inputTextField.text != joinPasswordConfirm.inputTextField.text) || joinPasswordConfirm.inputTextField.text == ""){
+            invaildInputLabel.text = "비밀번호를 확인해주세요"
+        }
+        
         else {
             let requestBody = Member(
                 email: memberEmail,
@@ -162,6 +177,7 @@ final class JoinViewController : UIViewController {
          joinPassword,
          joinEmail,
          invaildInputLabel,
+         joinPasswordConfirm,
          buttonStackView].forEach {
             view.addSubview($0)
         }
@@ -190,8 +206,14 @@ final class JoinViewController : UIViewController {
             $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-40)
         }
         
+        joinPasswordConfirm.snp.makeConstraints {
+            $0.top.equalTo(joinPassword.snp.bottom).offset(30)
+            $0.leading.equalTo(view.safeAreaLayoutGuide).offset(40)
+            $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-40)
+        }
+        
         invaildInputLabel.snp.makeConstraints {
-            $0.top.equalTo(joinPassword.snp.bottom).offset(20)
+            $0.top.equalTo(joinPasswordConfirm.snp.bottom).offset(20)
             $0.leading.equalTo(view.safeAreaLayoutGuide).offset(40)
             $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-40)
             $0.height.equalTo(40)
