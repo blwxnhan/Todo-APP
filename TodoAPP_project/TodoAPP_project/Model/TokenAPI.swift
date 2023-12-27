@@ -65,7 +65,6 @@ enum TokenAPI {
             // Handle success (200번대)
             if case .login = self {
                 let loginToken = String(decoding: data, as: UTF8.self)
-                print(loginToken)
                 TokenManager.shared.token.accessToken = loginToken
                 return true
             }

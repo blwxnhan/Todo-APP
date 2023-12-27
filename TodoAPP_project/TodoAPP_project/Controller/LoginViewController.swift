@@ -31,7 +31,7 @@ final class LoginViewController : UIViewController {
     let idInputView : InputView = {
         let inputView = InputView()
         inputView.inputLabel.text = "email"
-        inputView.inputTextField.placeholder = "email을 입력하세요."
+        inputView.inputTextField.placeholder = "이메일을 입력하세요."
         
         return inputView
     }()
@@ -39,7 +39,9 @@ final class LoginViewController : UIViewController {
     let passwordInputView : InputView = {
         let inputView = InputView()
         inputView.inputLabel.text = "password"
-        inputView.inputTextField.placeholder = "password를 입력하세요."
+        inputView.inputTextField.placeholder = "비밀번호를 입력하세요."
+        inputView.inputTextField.isSecureTextEntry = true
+        inputView.inputTextField.textContentType = .oneTimeCode
 
         return inputView
     }()

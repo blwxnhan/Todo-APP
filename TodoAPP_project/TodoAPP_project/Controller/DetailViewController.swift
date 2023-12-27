@@ -120,7 +120,6 @@ final class DetailViewController : UIViewController {
     private func configureDatePicker() {
         let endDate = todoManager.todoAllDataSource[indexNumber].endDate
         endDateView.dataPicker.date = endDate?.toDate() ?? Date.now
-        print(endDate)
     }
     
     private func setLayout() {
