@@ -96,13 +96,6 @@ enum TodoAPI {
                 
 //                print("Todo List: \(TodoManager.shared.todoAllDataSource)")
             }
-            else if case .fetchTodo = self {
-                let dataContent = try JSONDecoder().decode(Status.self, from: data)
-                print("Response Data: \(dataContent.msg)")
-                
-                let todoList = try JSONDecoder().decode(Todo.self, from: data)
-                TodoManager.shared.todoDataSource = todoList
-            }
             else {
                 let dataContent = try JSONDecoder().decode(Status.self, from: data)
                 print("Response Data: \(dataContent.msg)")
