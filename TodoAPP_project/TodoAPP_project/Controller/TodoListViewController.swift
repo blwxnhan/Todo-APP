@@ -20,9 +20,7 @@ final class TodoListViewController: UIViewController {
         setLayout()
         configureTableView()
         configureScrollViewInset()
-        
-        self.hideKeyboardWhenTappedAround()
-                
+                        
         Task {
             do {
                 try await TodoAPI.fetchAllTodo.performRequest()

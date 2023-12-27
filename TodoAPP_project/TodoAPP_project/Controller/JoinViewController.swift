@@ -104,12 +104,12 @@ final class JoinViewController : UIViewController {
     @objc private func tabJoinButton(_:UIButton) {
         var joinSuccess = false
         
-        var memberId = ""
+        var memberEmail = ""
         var memberPassword = ""
         var memberNickname = ""
         
-        if let id = joinEmail.inputTextField.text {
-            memberId = id
+        if let email = joinEmail.inputTextField.text {
+            memberEmail = email
         }
         
         if let password = joinPassword.inputTextField.text {
@@ -128,7 +128,7 @@ final class JoinViewController : UIViewController {
         
         else {
             let requestBody = Member(
-                id: memberId,
+                email: memberEmail,
                 password: memberPassword,
                 nickname: memberNickname
             )
@@ -163,21 +163,25 @@ final class JoinViewController : UIViewController {
         joinLabel.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).offset(60)
             $0.leading.equalTo(view.safeAreaLayoutGuide).offset(40)
+            $0.width.equalTo(100)
         }
         
         joinNickname.snp.makeConstraints {
             $0.top.equalTo(joinLabel.snp.bottom).offset(50)
             $0.leading.equalTo(view.safeAreaLayoutGuide).offset(40)
+            $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-40)
         }
         
         joinEmail.snp.makeConstraints {
             $0.top.equalTo(joinNickname.snp.bottom).offset(30)
             $0.leading.equalTo(view.safeAreaLayoutGuide).offset(40)
+            $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-40)
         }
         
         joinPassword.snp.makeConstraints {
             $0.top.equalTo(joinEmail.snp.bottom).offset(30)
             $0.leading.equalTo(view.safeAreaLayoutGuide).offset(40)
+            $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-40)
         }
         
         invaildInputLabel.snp.makeConstraints {
