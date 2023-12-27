@@ -137,7 +137,13 @@ final class JoinViewController : UIViewController {
                 joinSuccess = try await TokenAPI.join(requestBody).performRequest(with: requestBody)
                 
                 if joinSuccess == true {
-                    self.dismiss(animated: false)
+                    let joinSuccessAlert = UIAlertController(title: "알림", message: "회원가입 성공.", preferredStyle: UIAlertController.Style.alert)
+                    
+                    let success = UIAlertAction(title: "확인", style: .default) { action in
+                        self.dismiss(animated: false)
+                    }
+                    joinSuccessAlert.addAction(success)
+                    present(joinSuccessAlert, animated: true, completion: nil)
                 }
                 else {
                     invaildInputLabel.text = "이메일과 비밀번호를 다시 입력해주세요"

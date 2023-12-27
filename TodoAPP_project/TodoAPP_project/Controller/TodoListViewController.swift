@@ -240,7 +240,6 @@ extension TodoListViewController : PlusListButtonDelegate {
                 try await TodoAPI.fetchAllTodo.performRequest()
                 self.tableView.reloadData()
             }
-            
             view.registerTextField.text = ""
         }
     }
