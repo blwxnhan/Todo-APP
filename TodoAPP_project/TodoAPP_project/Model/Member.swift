@@ -8,7 +8,7 @@
 import Foundation
 
 struct Member: Codable {
-    var id : String
+    var email : String
     var password : String
     var nickname : String
 }
