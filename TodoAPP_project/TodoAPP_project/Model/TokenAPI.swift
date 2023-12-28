@@ -73,7 +73,6 @@ enum TokenAPI {
                 print("Response Data: \(dataContent.msg)")
                 return true
             }
-            
             else {
                 let dataContent = try JSONDecoder().decode(Status.self, from: data)
                 print("Response Data: \(dataContent.msg)")

@@ -67,7 +67,7 @@ final class TodoTableViewCell : UITableViewCell {
         checkButton.setImage(UIImage(systemName: "checkmark.circle.fill"), for: .normal)
                 
         todoListLabel.textColor = .lightGray
-        todoListLabel.strikethroughAndChangeLineColor(from: todoListLabel.text, at: todoListLabel.text)
+//        todoListLabel.strikethroughAndChangeLineColor(from: todoListLabel.text, at: todoListLabel.text)
                 
         deleteButton.setImage(UIImage(systemName: "multiply.circle.fill"), for: .normal)
     }
@@ -76,7 +76,7 @@ final class TodoTableViewCell : UITableViewCell {
         checkButton.setImage(UIImage(systemName: "circle"), for: .normal)
             
         todoListLabel.textColor = .black
-        todoListLabel.unsetStrikethrough(from: todoListLabel.text, at: todoListLabel.text)
+//        todoListLabel.unsetStrikethrough(from: todoListLabel.text, at: todoListLabel.text)
             
         deleteButton.setImage(nil, for: .normal)
     }

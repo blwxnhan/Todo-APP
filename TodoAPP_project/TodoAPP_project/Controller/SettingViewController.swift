@@ -50,7 +50,6 @@ extension SettingViewController : UITableViewDelegate,UITableViewDataSource {
         ) as? SettingTableViewCell else {
             return UITableViewCell()
         }
-        
         cell.settingTitleLabel.text = setting[indexPath.row]
         
         return cell
