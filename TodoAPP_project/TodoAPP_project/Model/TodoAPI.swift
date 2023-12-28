@@ -88,13 +88,10 @@ enum TodoAPI {
         
         //response가 200번대인지 확인하는 부분
         if (200..<300).contains(httpResponse.statusCode) {
-            // Handle success (200번대)
             if case .fetchAllTodo = self {
                 let todoList = try JSONDecoder().decode([Todo].self, from: data)
                 
                 TodoManager.shared.todoAllDataSource = todoList
-                
-//                print("Todo List: \(TodoManager.shared.todoAllDataSource)")
             }
             else {
                 let dataContent = try JSONDecoder().decode(Status.self, from: data)

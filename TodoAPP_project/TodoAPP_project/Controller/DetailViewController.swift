@@ -8,10 +8,19 @@
 import UIKit
 import SnapKit
 
+protocol DetailViewControllerDelegate: AnyObject {
+    func didUpdateTodo()
+}
+
 final class DetailViewController : UIViewController {
     private let todoManager = TodoManager.shared
     
-    var indexNumber = 0
+    weak var delegate: DetailViewControllerDelegate?
+
+    
+    var IDNumber = 0
+    var indexIDNumber = 0
+    var endDate = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,7 +78,6 @@ final class DetailViewController : UIViewController {
         textView.layer.borderWidth = 1
         textView.font = UIFont.systemFont(ofSize: 17, weight: .light)
         
-        
         return textView
     }()
     
@@ -86,10 +94,22 @@ final class DetailViewController : UIViewController {
         return button
     }()
     
+    private func notifyDataUpdated() {
+        delegate?.didUpdateTodo()
+    }
+    
     @objc func tabSaveButton(_ :UIButton) {
-        let cellData = todoManager.todoAllDataSource[indexNumber]
-        let id = cellData.id
-        var title = cellData.title
+        var todoData = Todo(id: 0, title: "", isFinished: false)
+
+        if let index = todoManager.todoAllDataSource.firstIndex(where: { $0.id == IDNumber }) {
+            todoData = todoManager.todoAllDataSource[index]
+            indexIDNumber = index
+        } else {
+            print("id가 idnumber인 Todo를 찾을 수 없습니다.")
+        }
+        
+        let id = IDNumber
+        var title = todoData.title
         
         let selectedEndDate = endDateView.dataPicker.date.toString()
         let description = descriptionTextView.text
@@ -97,7 +117,7 @@ final class DetailViewController : UIViewController {
         if let todoTitle = detailViewTitle.text {
             title = todoTitle
         }
-        else { title = cellData.title }
+        else { title = todoData.title }
         
         let requestBody = RequestDTO(
             title: title ,
@@ -105,21 +125,30 @@ final class DetailViewController : UIViewController {
             endDate: selectedEndDate
         )
         
-        todoManager.todoAllDataSource[indexNumber].title = title
-        todoManager.todoAllDataSource[indexNumber].description = description
-        todoManager.todoAllDataSource[indexNumber].endDate = selectedEndDate
+        todoManager.todoAllDataSource[indexIDNumber].title = title
+        todoManager.todoAllDataSource[indexIDNumber].description = description
+        todoManager.todoAllDataSource[indexIDNumber].endDate = selectedEndDate
 
         Task {
-            try await TodoAPI.modifyTodo(id: id, requestBody).performRequest(with: requestBody)
+            do{
+                try await TodoAPI.modifyTodo(id: id, requestBody).performRequest(with: requestBody)
+                try await TodoAPI.fetchAllTodo.performRequest()
+                notifyDataUpdated()
+            }
+            
+            catch {
+                print(error)
+            }
         }
         configureDatePicker()
         
         navigationController?.popViewController(animated: false)
     }
     
+    // 문제있음
     private func configureDatePicker() {
-        let endDate = todoManager.todoAllDataSource[indexNumber].endDate
-        endDateView.dataPicker.date = endDate?.toDate() ?? Date.now
+//        let endDate = todoManager.todoAllDataSource[indexIDNumber].endDate
+        endDateView.dataPicker.date = endDate.toDate() ?? Date.now
     }
     
     private func setLayout() {

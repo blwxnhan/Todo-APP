@@ -8,9 +8,9 @@
 import Foundation
 
 class TodoManager{
-    static let shared = TodoManager()
-    
     var todoAllDataSource : [Todo] = []
+    
+    static let shared = TodoManager()
 
     private init() {}
 }

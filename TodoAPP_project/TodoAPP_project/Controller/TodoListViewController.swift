@@ -11,6 +11,11 @@ import SnapKit
 final class TodoListViewController: UIViewController {
     private let todoManager = TodoManager.shared
     
+    
+    var expiredTodos: [Todo] = []
+    var upcomingTodos: [Todo] = []
+    var todayTodos: [Todo] = []
+    
     let scrollView = UIScrollView()
     
     override func viewDidLoad() {
@@ -24,8 +29,16 @@ final class TodoListViewController: UIViewController {
         Task {
             do {
                 try await TodoAPI.fetchAllTodo.performRequest()
-                            
-                self.tableView.reloadData()
+                
+                let todos = todoManager.todoAllDataSource
+                
+                expiredTodos = todos.filter { $0.section == .expire }
+                upcomingTodos = todos.filter { $0.section == .upcoming }
+                todayTodos = todos.filter { $0.section == .today }
+
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
             }
             catch{
                 print("error: \(error)")
@@ -34,7 +47,24 @@ final class TodoListViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.tableView.reloadData()
+        Task {
+            do {
+                try await TodoAPI.fetchAllTodo.performRequest()
+                
+                let todos = todoManager.todoAllDataSource
+                
+                expiredTodos = todos.filter { $0.section == .expire }
+                upcomingTodos = todos.filter { $0.section == .upcoming }
+                todayTodos = todos.filter { $0.section == .today }
+
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            }
+            catch{
+                print("error: \(error)")
+            }
+        }
     }
     
 // MARK: - UI
@@ -93,8 +123,6 @@ final class TodoListViewController: UIViewController {
 // MARK: - UITableView extension
 extension TodoListViewController : UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let todoData = todoManager.todoAllDataSource[indexPath.row]
-
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: TodoTableViewCell.identifier,
             for: indexPath
@@ -102,54 +130,67 @@ extension TodoListViewController : UITableViewDataSource, UITableViewDelegate {
             return UITableViewCell()
         }
         
+        var todo : Todo?
+    
+        switch indexPath.section {
+        case 0:
+            todo = todayTodos[indexPath.row]
+        case 1:
+            todo = upcomingTodos[indexPath.row]
+        case 2:
+            todo = expiredTodos[indexPath.row]
+        default:
+            return UITableViewCell()
+        }
+        
         cell.prepareLabel(
-            todoListLabel:todoData.title
+            todoListLabel:todo?.title
         )
         
         cell.delegate = self
         cell.selectionStyle = .none
         
-        let successOrNot = todoData.isFinished
+        let successOrNot = todo?.isFinished
         
-        if successOrNot {
-            cell.complete()
-        }
-        else {
-            cell.unComplete()
-        }
+        if successOrNot ?? true { cell.complete() }
+        else { cell.unComplete() }
         
         return cell
     }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return todoManager.todoAllDataSource.count
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let todoData = todoManager.todoAllDataSource[indexPath.row]
 
-        let detailVC = DetailViewController()
-        detailVC.detailViewTitle.text = todoData.title
-        detailVC.indexNumber = indexPath.row
-        detailVC.descriptionTextView.text = todoData.description
-        self.navigationController?.pushViewController(detailVC, animated: true)
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        var countSectionList = 0
+            
+        switch section {
+        case 0:
+            countSectionList = todayTodos.count
+        case 1:
+            countSectionList = upcomingTodos.count
+        case 2:
+            countSectionList = expiredTodos.count
+        default:
+            return countSectionList
+        }
+        return countSectionList
     }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            let id = todoManager.todoAllDataSource[indexPath.row].id
-            Task {
-                try await TodoAPI.deleteTodo(id: id).performRequest()
-            }
-            todoManager.todoAllDataSource.remove(at: indexPath.row)
-            
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        }
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 3
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let todoTableViewHeaderView = SectionHeaderView()
         
+        switch section {
+        case 0:
+            todoTableViewHeaderView.sectionNameLabel.text = "today"
+        case 1:
+            todoTableViewHeaderView.sectionNameLabel.text = "upcoming"
+        case 2:
+            todoTableViewHeaderView.sectionNameLabel.text = "expire"
+        default:
+            return todoTableViewHeaderView
+        }
         return todoTableViewHeaderView
     }
     
@@ -164,26 +205,106 @@ extension TodoListViewController : UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 70
     }
+    
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        
+        var id = 0
+        
+        if editingStyle == .delete {
+            switch indexPath.section {
+            case 0:
+                id = todayTodos[indexPath.row].id
+                todayTodos.remove(at: indexPath.row)
+            case 1:
+                id = upcomingTodos[indexPath.row].id
+                upcomingTodos.remove(at: indexPath.row)
+            case 2:
+                id = expiredTodos[indexPath.row].id
+                expiredTodos.remove(at: indexPath.row)
+            default:
+                print("인덱스 없음")
+            }
+            
+            Task {
+                try await TodoAPI.deleteTodo(id: id).performRequest()
+                try await TodoAPI.fetchAllTodo.performRequest()
+            }
+                        
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+    }
+    
+    // cell 클릭시 detailVC 로 이동 -> 상세내용 보기
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        var todoData = Todo(id: 0, title: "", isFinished: false)
+
+        switch indexPath.section {
+        case 0:
+            todoData = todayTodos[indexPath.row]
+        case 1:
+            todoData = upcomingTodos[indexPath.row]
+        case 2:
+            todoData = expiredTodos[indexPath.row]
+        default:
+            print("인덱스 없음")
+        }
+
+        let detailVC = DetailViewController()
+        let date : Date = .now
+        
+        let nowToString = date.toString()
+        
+        detailVC.delegate = self
+        
+        detailVC.detailViewTitle.text = todoData.title
+        detailVC.IDNumber = todoData.id
+        detailVC.descriptionTextView.text = todoData.description
+        detailVC.endDate = todoData.endDate ?? nowToString
+        self.navigationController?.pushViewController(detailVC, animated: true)
+    }
 }
 
 // MARK: - ButtonTappedDelegate extension
 extension TodoListViewController : ButtonTappedDelegate {
+    // 수정
     func tapFinishButton(forCell cell: TodoTableViewCell) {
         guard let indexPath = tableView.indexPath(for: cell) else { return }
-                
-        let cellData = todoManager.todoAllDataSource[indexPath.row]
-        let id = cellData.id
+        var todoData = Todo(id: 0, title: "", isFinished: false)
+
+        switch indexPath.section {
+        case 0:
+            todoData = todayTodos[indexPath.row]
+        case 1:
+            todoData = upcomingTodos[indexPath.row]
+        case 2:
+            todoData = expiredTodos[indexPath.row]
+        default:
+            print("인덱스 없음")
+        }
+            
+        let id = todoData.id
         
-        let successOrNot = cellData.isFinished
+        let successOrNot = todoData.isFinished
         
         if !successOrNot {
             print(id,successOrNot)
 
             cell.complete()
-            todoManager.todoAllDataSource[indexPath.row].isFinished = true
+            switch indexPath.section {
+            case 0:
+                todayTodos[indexPath.row].isFinished = true
+            case 1:
+                upcomingTodos[indexPath.row].isFinished = true
+            case 2:
+                expiredTodos[indexPath.row].isFinished = true
+            default:
+                print("인덱스 없음")
+            }
             
             Task{
                 try await TodoAPI.modifyTodoSuccess(id: id).performRequest()
+                try await TodoAPI.fetchAllTodo.performRequest()
             }
         }
         
@@ -191,31 +312,55 @@ extension TodoListViewController : ButtonTappedDelegate {
             print(id,successOrNot)
 
             cell.unComplete()
-            todoManager.todoAllDataSource[indexPath.row].isFinished = false
+            switch indexPath.section {
+            case 0:
+                todayTodos[indexPath.row].isFinished = false
+            case 1:
+                upcomingTodos[indexPath.row].isFinished = false
+            case 2:
+                expiredTodos[indexPath.row].isFinished = false
+            default:
+                print("인덱스 없음")
+            }
             
             Task{
                 try await TodoAPI.modifyTodoSuccess(id: id).performRequest()
+                try await TodoAPI.fetchAllTodo.performRequest()
             }
         }
-        
     }
     
+    
+    // 수정
     func tapDeleteButton(forCell cell: TodoTableViewCell) {
         if let indexPath = tableView.indexPath(for: cell),
            indexPath.section < todoManager.todoAllDataSource.count {
-            let id = todoManager.todoAllDataSource[indexPath.row].id
+            var id = 0
+            
+            switch indexPath.section {
+            case 0:
+                id = todayTodos[indexPath.row].id
+                todayTodos.remove(at: indexPath.row)
+            case 1:
+                id = upcomingTodos[indexPath.row].id
+                upcomingTodos.remove(at: indexPath.row)
+            case 2:
+                id = expiredTodos[indexPath.row].id
+                expiredTodos.remove(at: indexPath.row)
+            default:
+                print("인덱스 없음")
+            }
+            
             print(id)
             Task{
                 try await TodoAPI.deleteTodo(id: id).performRequest()
+                try await TodoAPI.fetchAllTodo.performRequest()
             }
-
-            todoManager.todoAllDataSource.remove(at: indexPath.row)
                 
             tableView.deleteRows(at: [indexPath], with: .fade)
                 
             cell.checkButton.setImage(UIImage(systemName: "circle"), for: .normal)
             cell.todoListLabel.textColor = .black
-            cell.todoListLabel.unsetStrikethrough(from: cell.todoListLabel.text, at: cell.todoListLabel.text)
                 
             cell.deleteButton.setImage(nil, for: .normal)
         }
@@ -224,6 +369,7 @@ extension TodoListViewController : ButtonTappedDelegate {
 
 // MARK: - PlusListButtonDelegate extension
 extension TodoListViewController : PlusListButtonDelegate {
+    // 수정
     func tabAddTodoButton(forView view: RegisterView) {
         if let text = view.registerTextField.text {
             let date = Date.now
@@ -238,9 +384,35 @@ extension TodoListViewController : PlusListButtonDelegate {
             Task{
                 try await TodoAPI.createTodo(requestBody).performRequest(with: requestBody)
                 try await TodoAPI.fetchAllTodo.performRequest()
+                
+                let todos = todoManager.todoAllDataSource
+                todayTodos = todos.filter { $0.section == .today }
+                
                 self.tableView.reloadData()
             }
             view.registerTextField.text = ""
+        }
+    }
+}
+
+extension TodoListViewController : DetailViewControllerDelegate {
+    func didUpdateTodo() {
+        Task {
+            do {
+                try await TodoAPI.fetchAllTodo.performRequest()
+
+                let todos = todoManager.todoAllDataSource
+
+                expiredTodos = todos.filter { $0.section == .expire }
+                upcomingTodos = todos.filter { $0.section == .upcoming }
+                todayTodos = todos.filter { $0.section == .today }
+
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            } catch {
+                print("error : \(error)")
+            }
         }
     }
 }
