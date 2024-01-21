@@ -23,8 +23,7 @@ final class InputView : UIView {
         let textField = UITextField()
         textField.borderStyle = .roundedRect
         textField.setContentHuggingPriority(.defaultLow, for: .horizontal)
-        textField.clearButtonMode = .always
-        
+
         return textField
     }()
     

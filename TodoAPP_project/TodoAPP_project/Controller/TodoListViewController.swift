@@ -11,7 +11,6 @@ import SnapKit
 final class TodoListViewController: UIViewController {
     private let todoManager = TodoManager.shared
     
-    
     var expiredTodos: [Todo] = []
     var upcomingTodos: [Todo] = []
     var todayTodos: [Todo] = []
